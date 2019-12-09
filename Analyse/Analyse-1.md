@@ -1,6 +1,6 @@
-#Table des matières :
+# Table des matières :
 
-##Commun à tous les thèmes
+## Commun à tous les thèmes
 * Analyse / Cahier des charges : Formalisation de la demande du client
 o Contexte dans lequel le TFE s’articule
 o Présentation des besoins du client (fonctionnalités et non solutions)
@@ -19,7 +19,7 @@ o Documents/schémas selon la thématique (Diagrammes de classe, schémas résea
 * Démonstration du cas pratique : Dès le début du TFE, l’étudiant doit réfléchir à la manière dont il montrera sa réalisation. Si cela ne s’avère pas possible, il doit en discuter avec son rapporteur qui pourra, le cas échéant, faire une visite sur site pour pouvoir se porter garant de la réalisation effectuée. Dans ce cas, une vidéo ou une démo simplifiée sera également préparée pour que le jury puisse se faire une idée de ce qui a été fait. Idéalement le projet doit être testé et validé par le client et déployé en production.
 * Analyse critique du projet, points forts et points faibles, améliorations envisageables, plan pour le futur
 
-##Sécurité
+## Sécurité
 * Analyse de sécurité pour tout projet :
 o Identification des biens à protéger (assets)
 o quels sont les risques
@@ -28,7 +28,7 @@ o quels sont les risques résiduels
 * Site en https
 * Prise en compte des données personnelles et du GDPR
 
-##Physique appliquée (électricité & électronique, signal, télécoms)
+## Physique appliquée (électricité & électronique, signal, télécoms)
 Le travail devrait comporter une partie matérielle (p.e. carte hardware assemblée et/ou développée par l’étudiant avec des entrées/sorties analogiques et/ou numériques, robot, systèmes d’acquisition de signaux, ...). 
 Dans la mesure du possible, une simulation préalable de la solution sera développée par l’étudiant. La partie matérielle doit communiquer avec une interface utilisateur (application pc, mobile, ...) via des interfaces et des protocoles de communication adaptés à l’environnement dans lequel l’application tourne. 
 Il faut conditionner les signaux reçus (calibration du système pour un environnement donné, nettoyage des bruits, filtrage, amplification, …) et puis les traiter pour répondre aux objectifs de l’application finale.
@@ -39,21 +39,21 @@ En plus des attentes communes à tous les projets (voir plus haut), le doit TFE 
 * Des tests pour vérifier la conformité avec le cahier des charges,
 * Les manquements et les améliorations possibles
 
-##Développement 
-###WEB
+## Développement 
+### WEB
 * Ce n’est pas le fait de faire des pages web (HTML5-CSS3) qui compte mais la taille de la DB et les services proposés sur celle-ci.
 * Programmation côté client ET côté serveur.
-###Mobile
+### Mobile
 * Justifier le choix d’une application mobile
 * Justifier le choix de la plateforme et des technologies choisies
 * Habituellement la synchronisation de données avec un serveur est exigée
 * Application concrètement installée et installable (pas simulateur)
-###Applicatif
+### Applicatif
 Pour tous ceux qui ont une BD
 * Schéma entités-associations et schéma relationnel
 * Justification des choix DB : SQL, noSQL, ORM, logiciels
 
-##Ressources
+## Ressources
 * Indiquer clairement les sources de toute ressource intellectuelle ou d’exploitation (site web, code source, schémas, livres, ..) utilisées dans le cadre du projet.
 
 Autre Thème
