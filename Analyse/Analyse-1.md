@@ -2,16 +2,16 @@
 
 ## Commun à tous les thèmes
 * Analyse / Cahier des charges : Formalisation de la demande du client
-* [ ] Contexte dans lequel le TFE s’articule
-* [ ] Présentation des besoins du client (fonctionnalités et non solutions)
+  * [ ] Contexte dans lequel le TFE s’articule
+  * [ ] Présentation des besoins du client (fonctionnalités et non solutions)
 * Eventuellement sous forme de User Stories
-* [ ] Sujet pertinent, projet avec des spécificités, validé par le rapporteur (Intérêt technique? Intérêt pour un client? Pas de logiciels identiques génériques déjà existants? Etude de marché? Sondages?)
-* [ ] Charge de travail suffisante, validée également par le rapporteur (300h environ, comprenant notamment une analyse suffisante)
-* [ ] Contraintes dont l’étudiant doit tenir compte (matériel, temporel, …)
-* [ ] Documents/schémas selon la thématique (UML, DB, etc. pour le développement, schémas réseaux/électroniques de l’existant, …)
+  * [ ] Sujet pertinent, projet avec des spécificités, validé par le rapporteur (Intérêt technique? Intérêt pour un client? Pas de logiciels identiques génériques déjà existants? Etude de marché? Sondages?)
+  * [ ] Charge de travail suffisante, validée également par le rapporteur (300h environ, comprenant notamment une analyse suffisante)
+  * [ ] Contraintes dont l’étudiant doit tenir compte (matériel, temporel, …)
+  * [ ] Documents/schémas selon la thématique (UML, DB, etc. pour le développement, schémas réseaux/électroniques de l’existant, …)
 * Présentation de la méthodologie utilisée
 * Présentation de la solution avec justification des choix effectués
-* [ ] Documents/schémas selon la thématique (Diagrammes de classe, schémas réseaux, …)
+  * [ ] Documents/schémas selon la thématique (Diagrammes de classe, schémas réseaux, …)
 * Historique du projet : Planning de la réalisation + bilan des rencontres avec le client (+ éventuellement rapporteur) et explication de l’évolution des choix dans le temps
 * Utilisation d’un outil de versionning type GitHub dès le début du projet (commit unique la veille de la remise non accepté)
 * Tout code doit être facilement testable par l’équipe pédagogique. Par ex., pour TFE applicatif : l’application doit être déployable instantanément par les professeurs, via la mise à disposition d’une procédure d’installation courte (par ex. image docker). L’étudiant doit se concerter avec son rapporteur pour valider cette procédure
@@ -21,10 +21,10 @@
 
 ## Sécurité
 * Analyse de sécurité pour tout projet :
-* [ ] Identification des biens à protéger (assets)
-* [ ] quels sont les risques
-* [ ] quelles sont les contre-mesures mises en place
-* [ ] quels sont les risques résiduels
+  * [ ] Identification des biens à protéger (assets)
+  * [ ] quels sont les risques
+  * [ ] quelles sont les contre-mesures mises en place
+  * [ ] quels sont les risques résiduels
 * Site en https
 * Prise en compte des données personnelles et du GDPR
 
