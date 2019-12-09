@@ -1,60 +1,59 @@
-Table des matières :
+#Table des matiÃ¨resÂ :
 
-Commun à tous les thèmes
+##Commun Ã  tous les thÃ¨mes
 * Analyse / Cahier des charges : Formalisation de la demande du client
-o Contexte dans lequel le TFE s’articule
-o Présentation des besoins du client (fonctionnalités et non solutions)
+o Contexte dans lequel le TFE sâ€™articule
+o PrÃ©sentation des besoins du client (fonctionnalitÃ©s et non solutions)
 * Eventuellement sous forme de User Stories
-o Sujet pertinent, projet avec des spécificités, validé par le rapporteur (Intérêt technique? Intérêt pour un client? Pas de logiciels identiques génériques déjà existants? Etude de marché? Sondages?)
-o Charge de travail suffisante, validée également par le rapporteur (300h environ, comprenant notamment une analyse suffisante)
-o Contraintes dont l’étudiant doit tenir compte (matériel, temporel, …)
-o Documents/schémas selon la thématique (UML, DB, etc. pour le développement, schémas réseaux/électroniques de l’existant, …)
-* Présentation de la méthodologie utilisée
-* Présentation de la solution avec justification des choix effectués
-o Documents/schémas selon la thématique (Diagrammes de classe, schémas réseaux, …)
-* Historique du projet : Planning de la réalisation + bilan des rencontres avec le client (+ éventuellement rapporteur) et explication de l’évolution des choix dans le temps
-* Utilisation d’un outil de versionning type GitHub dès le début du projet (commit unique la veille de la remise non accepté)
-* Tout code doit être facilement testable par l’équipe pédagogique. Par ex., pour TFE applicatif : l’application doit être déployable instantanément par les professeurs, via la mise à disposition d’une procédure d’installation courte (par ex. image docker). L’étudiant doit se concerter avec son rapporteur pour valider cette procédure
-* Quelle que soit la thématique, réflexion sur la sécurité : Identification des risques, proposition de contre-mesures
-* Démonstration du cas pratique : Dès le début du TFE, l’étudiant doit réfléchir à la manière dont il montrera sa réalisation. Si cela ne s’avère pas possible, il doit en discuter avec son rapporteur qui pourra, le cas échéant, faire une visite sur site pour pouvoir se porter garant de la réalisation effectuée. Dans ce cas, une vidéo ou une démo simplifiée sera également préparée pour que le jury puisse se faire une idée de ce qui a été fait. Idéalement le projet doit être testé et validé par le client et déployé en production.
-* Analyse critique du projet, points forts et points faibles, améliorations envisageables, plan pour le futur
+o Sujet pertinent, projet avec des spÃ©cificitÃ©s, validÃ© par le rapporteur (IntÃ©rÃªt technique? IntÃ©rÃªt pour un client? Pas de logiciels identiques gÃ©nÃ©riques dÃ©jÃ  existants? Etude de marchÃ©? Sondages?)
+o Charge de travail suffisante, validÃ©e Ã©galement par le rapporteur (300h environ, comprenant notamment une analyse suffisante)
+o Contraintes dont lâ€™Ã©tudiant doit tenir compte (matÃ©riel, temporel, â€¦)
+o Documents/schÃ©mas selon la thÃ©matique (UML, DB, etc. pour le dÃ©veloppement, schÃ©mas rÃ©seaux/Ã©lectroniques de lâ€™existant, â€¦)
+* PrÃ©sentation de la mÃ©thodologie utilisÃ©e
+* PrÃ©sentation de la solution avec justification des choix effectuÃ©s
+o Documents/schÃ©mas selon la thÃ©matique (Diagrammes de classe, schÃ©mas rÃ©seaux, â€¦)
+* Historique du projet : Planning de la rÃ©alisation + bilan des rencontres avec le client (+ Ã©ventuellement rapporteur) et explication de lâ€™Ã©volution des choix dans le temps
+* Utilisation dâ€™un outil de versionning type GitHub dÃ¨s le dÃ©but du projet (commit unique la veille de la remise non acceptÃ©)
+* Tout code doit Ãªtre facilement testable par lâ€™Ã©quipe pÃ©dagogique. Par ex., pour TFE applicatif : lâ€™application doit Ãªtre dÃ©ployable instantanÃ©ment par les professeurs, via la mise Ã  disposition dâ€™une procÃ©dure dâ€™installation courte (par ex. image docker). Lâ€™Ã©tudiant doit se concerter avec son rapporteur pour valider cette procÃ©dure
+* Quelle que soit la thÃ©matique, rÃ©flexion sur la sÃ©curitÃ© : Identification des risques, proposition de contre-mesures
+* DÃ©monstration du cas pratique : DÃ¨s le dÃ©but du TFE, lâ€™Ã©tudiant doit rÃ©flÃ©chir Ã  la maniÃ¨re dont il montrera sa rÃ©alisation. Si cela ne sâ€™avÃ¨re pas possible, il doit en discuter avec son rapporteur qui pourra, le cas Ã©chÃ©ant, faire une visite sur site pour pouvoir se porter garant de la rÃ©alisation effectuÃ©e. Dans ce cas, une vidÃ©o ou une dÃ©mo simplifiÃ©e sera Ã©galement prÃ©parÃ©e pour que le jury puisse se faire une idÃ©e de ce qui a Ã©tÃ© fait. IdÃ©alement le projet doit Ãªtre testÃ© et validÃ© par le client et dÃ©ployÃ© en production.
+* Analyse critique du projet, points forts et points faibles, amÃ©liorations envisageables, plan pour le futur
 
-Sécurité
-* Analyse de sécurité pour tout projet :
-o Identification des biens à protéger (assets)
+##SÃ©curitÃ©
+* Analyse de sÃ©curitÃ© pour tout projet :
+o Identification des biens Ã  protÃ©ger (assets)
 o quels sont les risques
 o quelles sont les contre-mesures mises en place
-o quels sont les risques résiduels
+o quels sont les risques rÃ©siduels
 * Site en https
-* Prise en compte des données personnelles et du GDPR
+* Prise en compte des donnÃ©es personnelles et du GDPR
 
-Physique appliquée (électricité & électronique, signal, télécoms)
-Le travail devrait comporter une partie matérielle (p.e. carte hardware assemblée et/ou développée par l’étudiant avec des entrées/sorties analogiques et/ou numériques, robot, systèmes d’acquisition de signaux, ...). 
-Dans la mesure du possible, une simulation préalable de la solution sera développée par l’étudiant. La partie matérielle doit communiquer avec une interface utilisateur (application pc, mobile, ...) via des interfaces et des protocoles de communication adaptés à l’environnement dans lequel l’application tourne. 
-Il faut conditionner les signaux reçus (calibration du système pour un environnement donné, nettoyage des bruits, filtrage, amplification, …) et puis les traiter pour répondre aux objectifs de l’application finale.
-En plus des attentes communes à tous les projets (voir plus haut), le doit TFE doit expliciter :
-* Le besoin recherché sous forme de cahier de charges (préciser notamment les contraintes temporelles, les contraintes énergétiques, les contraintes d’espace mémoire, les contraintes environnementales, les contraintes des temps de latence dans les transferts de données, etc),
-* L'étude succincte des possibilités existantes et la justification des choix faits (pq tel ou tel composant, protocole, etc),
-* L’implémentation de la solution retenue,
-* Des tests pour vérifier la conformité avec le cahier des charges,
-* Les manquements et les améliorations possibles
+##Physique appliquÃ©e (Ã©lectricitÃ© & Ã©lectronique, signal, tÃ©lÃ©coms)
+Le travail devrait comporter une partie matÃ©rielle (p.e. carte hardware assemblÃ©e et/ou dÃ©veloppÃ©e par lâ€™Ã©tudiant avec des entrÃ©es/sorties analogiques et/ou numÃ©riques, robot, systÃ¨mes dâ€™acquisition de signaux, ...). 
+Dans la mesure du possible, une simulation prÃ©alable de la solution sera dÃ©veloppÃ©e par lâ€™Ã©tudiant. La partie matÃ©rielle doit communiquer avec une interface utilisateur (application pc, mobile, ...) via des interfaces et des protocoles de communication adaptÃ©s Ã  lâ€™environnement dans lequel lâ€™application tourne. 
+Il faut conditionner les signaux reÃ§us (calibration du systÃ¨me pour un environnement donnÃ©, nettoyage des bruits, filtrage, amplification, â€¦) et puis les traiter pour rÃ©pondre aux objectifs de lâ€™application finale.
+En plus des attentes communes Ã  tous les projets (voir plus haut), le doit TFE doit expliciter :
+* Le besoin recherchÃ© sous forme de cahier de charges (prÃ©ciser notamment les contraintes temporelles, les contraintes Ã©nergÃ©tiques, les contraintes dâ€™espace mÃ©moire, les contraintes environnementales, les contraintes des temps de latence dans les transferts de donnÃ©es, etc),
+* L'Ã©tude succincte des possibilitÃ©s existantes et la justification des choix faits (pq tel ou tel composant, protocole, etc),
+* Lâ€™implÃ©mentation de la solution retenue,
+* Des tests pour vÃ©rifier la conformitÃ© avec le cahier des charges,
+* Les manquements et les amÃ©liorations possibles
 
-Développement 
-WEB
-* Ce n’est pas le fait de faire des pages web (HTML5-CSS3) qui compte mais la taille de la DB et les services proposés sur celle-ci.
-* Programmation côté client ET côté serveur.
-Mobile
-* Justifier le choix d’une application mobile
+##DÃ©veloppement 
+###WEB
+* Ce nâ€™est pas le fait de faire des pages web (HTML5-CSS3) qui compte mais la taille de la DB et les services proposÃ©s sur celle-ci.
+* Programmation cÃ´tÃ© client ET cÃ´tÃ© serveur.
+###Mobile
+* Justifier le choix dâ€™une application mobile
 * Justifier le choix de la plateforme et des technologies choisies
-* Habituellement la synchronisation de données avec un serveur est exigée
-* Application concrètement installée et installable (pas simulateur)
-Applicatif
+* Habituellement la synchronisation de donnÃ©es avec un serveur est exigÃ©e
+* Application concrÃ¨tement installÃ©e et installable (pas simulateur)
+###Applicatif
 Pour tous ceux qui ont une BD
-* Schéma entités-associations et schéma relationnel
+* SchÃ©ma entitÃ©s-associations et schÃ©ma relationnel
 * Justification des choix DB : SQL, noSQL, ORM, logiciels
 
-Ressources
-* Indiquer clairement les sources de toute ressource intellectuelle ou d’exploitation (site web, code source, schémas, livres, ..) utilisées dans le cadre du projet.
+##Ressources
+* Indiquer clairement les sources de toute ressource intellectuelle ou dâ€™exploitation (site web, code source, schÃ©mas, livres, ..) utilisÃ©es dans le cadre du projet.
 
-Autre Thème
-
+Autre ThÃ¨me
