@@ -13,7 +13,7 @@ Il aura pour objectif d'apporter un soutient et une présence "humaine" aux pers
 * Effectuer des rappels sur base d'un calendrier
 * Se déplacer de façon autonome dans une pièce
 * Envoyer un mail avec une commande vocale
-* Réagier à une interaction physique
+* Réagire à une interaction physique
 * Etc
 
 ## Technologies utilisées pour la conception
