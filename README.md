@@ -1,5 +1,5 @@
 ![robot concept](https://github.com/guivdh/simbot/blob/master/ressource/images/h8D2F51EA.jpg)
-# Pi-robot
+# Simbot
 Conception d'un robot autonome dans le cadre du TFE à l'EPHEC.
 
 ## Concept
