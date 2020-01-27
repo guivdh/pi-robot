@@ -7,15 +7,15 @@ PIbot est un robot autonome capable d'interagir avec son environnement via une c
 Il aura pour objectif d'apporter un soutient et une présence "humaine" aux personnes âgées.
 
 ## Fonctionnalités principales
-[ ] Répondre à des questions spécifiques
-* Construire une conversation
-* Reconnaître le visage d'une personne
-* Se rappeler d'une tâche
-* Effectuer des rappels sur base d'un calendrier
-* Se déplacer de façon autonome dans une pièce
-* Envoyer un mail avec une commande vocale
-* Réagire à une interaction physique
-* Etc
+- [ ] Répondre à des questions spécifiques
+- [ ] Construire une conversation
+- [ ] Reconnaître le visage d'une personne
+- [ ] Se rappeler d'une tâche
+- [ ] Effectuer des rappels sur base d'un calendrier
+- [ ] Se déplacer de façon autonome dans une pièce
+- [ ] Envoyer un mail avec une commande vocale
+- [ ] Réagire à une interaction physique
+- [ ] Etc
 
 ## Technologies utilisées pour la conception
 * Raspberry-pi
