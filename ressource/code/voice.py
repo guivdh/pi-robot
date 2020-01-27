@@ -7,6 +7,9 @@ from omxplayer.player import OMXPlayer
 from pathlib import Path
 from time import sleep
 from mutagen.mp3 import MP3
+import wave
+import numpy as np
+import librosa
 
 def speak(mot):
     tts = gTTS(text=mot, lang='fr')
@@ -18,7 +21,7 @@ def speak(mot):
     sleep(audio.info.length)
     player.quit()
 
-    os.remove('voice.mp3')
+    #os.remove('voice.mp3')
 
 def get_audio():
     r = sr.Recognizer()
@@ -39,16 +42,20 @@ def get_audio():
     return said
 
 
-speak("Bonjour, que puis-je faire pour vous?")
+#speak("Bonjour, que puis-je faire pour vous?")
 print("Bonjour, que puis-je faire pour vous?")
+y, s = librosa.load('test.wav', sr=8000)
 
-text = ""
-while("répète" not in text) :
-    text = get_audio()
 
-while("arrête" not in text) :
-    text = get_audio()
-    if("arrête" in text) :
-        print("Ok, j'arrête de répéter!")
-    else :
-        speak(text)
+#OMXPlayer(file, args=['-o', 'local'])
+
+#text = ""
+#while("répète" not in text) :
+#    text = get_audio()
+
+#while("arrête" not in text) :
+#    text = get_audio()
+#    if("arrête" in text) :
+#        print("Ok, j'arrête de répéter!")
+#    else :
+#        speak(text)
