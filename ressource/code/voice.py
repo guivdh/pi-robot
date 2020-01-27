@@ -44,7 +44,7 @@ def get_audio():
 
 #speak("Bonjour, que puis-je faire pour vous?")
 print("Bonjour, que puis-je faire pour vous?")
-y, s = librosa.load('test.wav', sr=8000)
+y, s = librosa.load('harvard.wav', sr=8000)
 
 
 #OMXPlayer(file, args=['-o', 'local'])
