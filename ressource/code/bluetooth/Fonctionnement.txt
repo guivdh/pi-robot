@@ -1,0 +1,7 @@
+Lancer le programme en y mettant l'adresse MAC Bluetooth du HC-05
+
+Ensuite, entrez les commandes dans le terminal et l'arduino pourra lire les commandes.
+
+Source du code python : http://blog.kevindoran.co/bluetooth-programming-with-python-3/
+
+Source du code arduino : https://retroetgeek.com/geek/arduino/arduino-module-bluetooth-hc-05/
