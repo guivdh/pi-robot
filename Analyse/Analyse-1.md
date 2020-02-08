@@ -3,8 +3,7 @@
 ## Commun à tous les thèmes
 * Analyse / Cahier des charges : Formalisation de la demande du client
   * [ ] Contexte dans lequel le TFE s’articule
-  * [ ] Présentation des besoins du client (fonctionnalités et non solutions)
-* Eventuellement sous forme de User Stories
+  * [ ] Présentation des besoins du client (fonctionnalités et non solutions) - Eventuellement sous forme de User Stories
   * [ ] Sujet pertinent, projet avec des spécificités, validé par le rapporteur (Intérêt technique? Intérêt pour un client? Pas de logiciels identiques génériques déjà existants? Etude de marché? Sondages?)
   * [ ] Charge de travail suffisante, validée également par le rapporteur (300h environ, comprenant notamment une analyse suffisante)
   * [ ] Contraintes dont l’étudiant doit tenir compte (matériel, temporel, …)
