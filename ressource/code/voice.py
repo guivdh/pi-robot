@@ -9,7 +9,7 @@ from time import sleep
 from mutagen.mp3 import MP3
 import wave
 import numpy as np
-import librosa
+#import librosa
 
 def speak(mot):
     tts = gTTS(text=mot, lang='fr')
@@ -44,7 +44,7 @@ def get_audio():
 
 #speak("Bonjour, que puis-je faire pour vous?")
 print("Bonjour, que puis-je faire pour vous?")
-y, s = librosa.load('harvard.wav', sr=8000)
+#y, s = librosa.load('harvard.wav', sr=8000)
 
 
 #OMXPlayer(file, args=['-o', 'local'])
