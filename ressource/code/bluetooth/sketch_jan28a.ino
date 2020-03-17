@@ -1,5 +1,5 @@
 #include <SoftwareSerial.h>   // librairie pour creer une nouvelle connexion serie max 9600 baud
-#define PIN_LED 22
+#define PIN_LED 7
 
 SoftwareSerial BTSerial(10, 11); // RX | TX  = > BT-TX=10 BT-RX=11
 
@@ -7,7 +7,7 @@ void setup()
 {
   Serial.begin(9600);
   Serial.println("Enter a command:");
-  BTSerial.begin(9600);  // HC-05 9600 baud 
+  BTSerial.begin(9600);  // HC-05 9600 baud
 
   pinMode(PIN_LED, OUTPUT);
 }
@@ -32,7 +32,7 @@ void loop()
       // Read message send by serial usb
       message = Serial.readString();
       // Ecriture du message dans le BT
-      // write in BT 
+      // write in BT
       BTSerial.println(message);
     }
 
