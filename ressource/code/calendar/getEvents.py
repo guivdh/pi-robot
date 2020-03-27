@@ -5,19 +5,24 @@ import os.path
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
+from gtts import gTTS
 
-# If modifying these scopes, delete the file token.pickle.
 SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
 
-def authentificate_google():
+mois={1:'janvier',2:'février',3:'mars',4:'avril',5:'mai',6:'juin',7:'juillet',8:'août',9:'septembre',10:'octobre',11:'novembre',12:'décembre'}
 
-    """Shows basic usage of the Google Calendar API.
-    Prints the start and name of the next 10 events on the user's calendar.
-    """
+"""Shows basic usage of the Google Calendar API.
+Prints the start and name of the next 10 events on the user's calendar.
+"""
+
+def speak(text):
+    tts = gTTS(text=text, lang='fr')
+    filename="voice.mp3"
+    tts.save(filename)
+    os.system("mpg123 "+'voice.mp3')
+
+def main():
     creds = None
-    # The file token.pickle stores the user's access and refresh tokens, and is
-    # created automatically when the authorization flow completes for the first
-    # time.
     if os.path.exists('token.pickle'):
         with open('token.pickle', 'rb') as token:
             creds = pickle.load(token)
@@ -35,53 +40,33 @@ def authentificate_google():
 
     service = build('calendar', 'v3', credentials=creds)
 
-    return service
-
-
-
-def get_events(n, service):
     # Call the Calendar API
     now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
-    print('Getting the upcoming ',n,' events')
+    print('Getting the upcoming 10 events')
+    print(now)
     events_result = service.events().list(calendarId='primary', timeMin=now,
-                                        maxResults=n, singleEvents=True,
+                                        maxResults=10, singleEvents=True,
                                         orderBy='startTime').execute()
     events = events_result.get('items', [])
 
     if not events:
-        print('No upcoming events found.')
+        print('Aucun évènement à venir.')
+        player = os.system("mpg123 "+'sounds/aucunEvenement.mp3')
+
+    nbrEvent = 0
+
+    for i in events:
+        nbrEvent = nbrEvent + 1
+    strg = "Vous avez " + str(nbrEvent) + "évènements à venir"
+    speak(strg)
     for event in events:
         start = event['start'].get('dateTime', event['start'].get('date'))
         print(start, event['summary'])
+        print(event['summary'])
+        print("mois : " + start[5:7])
+        print("Jour : " + start[8:10])
+        strg = event['summary'] + " le " + start[8:10] + " " + mois[int(start[5:7])]
+        print(strg)
+        speak(strg)
 
-
-authentificate_google()
-
-event = {
-  'summary': 'simbot',
-  'location': 'orbais',
-  'description': 'A chance to hear more about Google\'s developer products.',
-  'start': {
-    'dateTime': '2020-03-15T09:00:00-07:00',
-    'timeZone': 'America/Los_Angeles',
-  },
-  'end': {
-    'dateTime': '2015-05-28T17:00:00-07:00',
-    'timeZone': 'America/Los_Angeles',
-  },
-  'recurrence': [
-    'RRULE:FREQ=DAILY;COUNT=2'
-  ],
-  'attendees': [
-    {'email': 'guillaumevdh3105.gv@gmail.com'},
-  ],
-  'reminders': {
-    'useDefault': False,
-    'overrides': [
-      {'method': 'email', 'minutes': 24 * 60},
-      {'method': 'popup', 'minutes': 10},
-    ],
-  },
-}
-
-event = service.events().insert(calendarId='primary', body=event).execute()
+main()

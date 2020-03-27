@@ -19,6 +19,7 @@ from playsound import playsound
 SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
 
 mois={1:'janvier',2:'février',3:'mars',4:'avril',5:'mai',6:'juin',7:'juillet',8:'août',9:'septembre',10:'octobre',11:'novembre',12:'décembre'}
+moisNbre={'janvier':1,'février':2,'mars':3,'avril':4,'mai':5,'juin':6,'juillet':7,'août':8,'septembre':9,'octobre':10,'novembre':11,'décembre':12}
 
 serverMACAddress = '98:D3:33:F5:AE:4D'
 port = 1
@@ -65,61 +66,6 @@ def get_audio():
             os.system("mpg123 "+"sounds/erreur.mp3")
     return said
 
-
-def main():
-    """Shows basic usage of the Google Calendar API.
-    Prints the start and name of the next 10 events on the user's calendar.
-    """
-    creds = None
-    if os.path.exists('token.pickle'):
-        with open('token.pickle', 'rb') as token:
-            creds = pickle.load(token)
-    # If there are no (valid) credentials available, let the user log in.
-    if not creds or not creds.valid:
-        if creds and creds.expired and creds.refresh_token:
-            creds.refresh(Request())
-        else:
-            flow = InstalledAppFlow.from_client_secrets_file(
-                'credentials.json', SCOPES)
-            creds = flow.run_local_server(port=0)
-        # Save the credentials for the next run
-        with open('token.pickle', 'wb') as token:
-            pickle.dump(creds, token)
-
-    service = build('calendar', 'v3', credentials=creds)
-
-    # Call the Calendar API
-    now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
-    print('Getting the upcoming 10 events')
-    print(now)
-    events_result = service.events().list(calendarId='primary', timeMin=now,
-                                        maxResults=10, singleEvents=True,
-                                        orderBy='startTime').execute()
-    events = events_result.get('items', [])
-
-    if not events:
-        print('Aucun évènement à venir.')
-        player = os.system("mpg123 "+'sounds/aucunEvenement.mp3')
-
-    nbrEvent = 0
-
-    for i in events:
-        nbrEvent = nbrEvent + 1
-    strg = "Vous avez " + str(nbrEvent) + "évènements à venir"
-    speak(strg)
-    for event in events:
-        start = event['start'].get('dateTime', event['start'].get('date'))
-        print(start, event['summary'])
-        print(event['summary'])
-        print("mois : " + start[5:7])
-        print("Jour : " + start[8:10])
-        strg = event['summary'] + " le " + start[8:10] + " " + mois[int(start[5:7])]
-        print(strg)
-        speak(strg)
-
-
-
-
 player = os.system("mpg123 "+'sounds/actionChoix.mp3')
 
 while 1:
@@ -127,24 +73,39 @@ while 1:
     text = ""
     commande = get_audio()
     if commande == "Salut":
-        player = os.system("mpg123 "+'sounds/caVa?.mp3')
+        player = os.system("mpg123 "+'sounds/caVa.mp3')
+
     if commande == "donne-moi les événements à venir":
         player = os.system("mpg123 "+'sounds/rechercheCalendrier.mp3')
-        main()
+        os.system("python3 calendar/getEvents.py")
+
+    if("donne-moi les événements du" in commande):
+        rep = commande.split()
+        longueur = len(rep)
+        print('Mois = ' + str(moisNbre[rep[longueur-1]]))
+        print('Jour = ' + rep[longueur-2])
+        os.system("python3 calendar/getEventsDay.py '"+str(rep[longueur-2])+'\' \''+str(moisNbre[rep[longueur-1]])+'\'')
+        #speak("Je recherche les événements du " + )
+        #os.system("python3 calendar/getEventsDay.py")
+
     if commande == "allume la LED":
         text = 'on'
         os.system("mpg123 "+'sounds/ledON.mp3')
+
     if commande == "éteins la LED":
         text = 'off'
         os.system("mpg123 "+'sounds/ledOFF.mp3')
+
     if commande == "donne-moi la température":
         text = 'temperature'
+
     if commande == "quitter":
         # Local time without timezone information printed in ISO 8601 format
-        dateTime = datetime.datetime.today()
+        date1 = datetime.datetime(1996, 12, 11)
 
         # Date time separator is a "#" symbol
-        print(dateTime.isoformat("T"))
+        min=(date1.isoformat("T"))
+        print(min)
         break
 
     s.send(text)
