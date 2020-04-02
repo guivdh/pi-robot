@@ -49,9 +49,7 @@ def main():
                                         orderBy='startTime').execute()
     events = events_result.get('items', [])
 
-    if not events:
-        print('Aucun évènement à venir.')
-        player = os.system("mpg123 "+'sounds/aucunEvenement.mp3')
+    
 
     nbrEvent = 0
 

@@ -97,7 +97,15 @@ while 1:
         os.system("mpg123 "+'sounds/ledOFF.mp3')
 
     if commande == "donne-moi la température":
-        text = 'temperature'
+        s.send("temperature")
+        data1 = s.recv(1024)
+        time.sleep(0.5)
+        s.send("temperature")
+        data2 = s.recv(1024)
+        data = data1+data2
+        strg = "Il fait actuellement" + data.decode("utf-8") + "degré dans la pièce"
+        speak(strg)
+
 
     if commande == "quitter":
         # Local time without timezone information printed in ISO 8601 format
@@ -108,21 +116,8 @@ while 1:
         print(min)
         break
 
+
     s.send(text)
-
-    if text == 'temperature':
-        s.close()
-        server_socket = bluetooth.BluetoothSocket(RFCOMM)
-        server_socket.bind(("", 3 ))
-        server_socket.listen(1)
-
-        s, address = server_socket.accept()
-
-        data = client_socket.recv(1024)
-
-        print(data)
-
-        server_socket.close()
 
 
         #print('Il fait ' + stringdata + ' degré dans la pièce')
