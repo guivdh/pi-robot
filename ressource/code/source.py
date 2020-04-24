@@ -106,8 +106,13 @@ while 1:
         strg = "Il fait actuellement" + data.decode("utf-8") + "degré dans la pièce"
         speak(strg)
 
+    if commande == "balade toi":
+        s.send("deplacement")
 
-    if commande == "quitter":
+    if commande == "arrête de te balader":
+        s.send("arret")
+
+    if commande == "tu peux quitter":
         # Local time without timezone information printed in ISO 8601 format
         date1 = datetime.datetime(1996, 12, 11)
 
@@ -118,6 +123,3 @@ while 1:
 
 
     s.send(text)
-
-
-        #print('Il fait ' + stringdata + ' degré dans la pièce')
