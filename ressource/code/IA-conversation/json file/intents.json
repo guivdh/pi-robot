@@ -4,7 +4,7 @@
 
          "patterns": ["Salut!", "Comment vas-tu ?", "Y a-t'il quelqu'un?", "Bonjour", "Bonne journée", "Yo"],
 
-         "responses": ["Bonjour!", "Quel plaisir de te revoir!", "Bonjour, comment puis-je vous aider?"],
+         "responses": ["Bonjour!", "Quel plaisir de te revoir!", "Salut à toi !"],
 
          "context_set": ""
 
@@ -14,17 +14,27 @@
 
          "patterns": ["bye", "A bientôt", "au revoir", "Bonne journée", "tchao"],
 
-         "responses": ["Je suis triste de te voir partir", "A tres vite j'espere", "Salut!"],
+         "responses": ["Je suis triste de te voir partir", "A tres vite j'espere", "Salut!", "Bonne journée !"],
 
          "context_set": ""
 
         },
 
-        {"tag": "age",
+        {"tag": "présentation",
 
-         "patterns": ["quel âge", "quel âge as-tu ?", "quel est ton âge ?", "donne-moi ton âge", "age?"],
+         "patterns": ["présente-toi", "présente toi", "peux-tu te présenter"],
 
-         "responses": ["J'ai 22 ans!", "Je suis âgé de 22 ans"],
+         "responses": ["Bonjour, je m'appelle simbote et je suis un robot assistant et divertissant pour personnages âgées ou à mobilité réduite."],
+
+         "context_set": ""
+
+        },
+
+        {"tag": "fonctionnalité",
+
+         "patterns": ["Que peux-tu faire", "Quelles sont tes fonctionnalités", "Que sais-tu faire ?"],
+
+         "responses": ["Mon créateur ne cesse de m'améliorer", "Si tu penses à une fonctionnalité que je ne sais pas encore faire, mon créateur est en train de la développer"],
 
          "context_set": ""
 
@@ -34,32 +44,182 @@
 
          "patterns": ["Quel est ton nom ?", "Comment t'appelles-tu ?", "ton nom", "quel est ton nom"],
 
-         "responses": ["Mon nom est Guillaume", "Je m'appelle Guillaume", "Je suis Guillaume"],
+         "responses": ["Mon nom est simbote", "Je m'appelle simbote", "Je suis simbote"],
 
          "context_set": ""
 
         },
 
-        {"tag": "shop",
+        {"tag": "lire évènements à venir",
 
-         "patterns": ["Id like to buy something", "whats on the menu", "what do you reccommend?", "could i get something to eat"],
+         "patterns": ["Qu'y a t'il dans mon calendrier", "dis moi mes évènements à venir", "lire calendrier", "lire évènements"],
 
-         "responses": ["We sell chocolate chip cookies for $2!", "Cookies are on the menu!"],
+         "responses": ["lire les évènements à venir"],
 
          "context_set": ""
 
         },
 
-        {"tag": "hours",
+        {"tag": "lire évènements à une date précise",
 
-         "patterns": ["when are you guys open", "what are your hours", "hours of operation"],
+         "patterns": ["Quels sont les évènements pour le jour de", "Qu'est-ce que j'ai de prévu pour le", "Qu'est-ce que j'ai de prévu pour la journée du", "lire évènements de la journée du",
+         "lire calendrier de la journée du", "Qu'y a t'il dans mon calendrier pour la journée du"],
 
-         "responses": ["We are open 7am-4pm Monday-Friday!"],
+         "responses": ["lire les évènements à venir à une date précise"],
+
+         "context_set": ""
+
+        },
+
+        {"tag": "ajouter un évènement",
+
+         "patterns": ["Ajouter un évènements dans mon calendrier", "ajouter un évènement", "ajouter un éléments à mon calendrier"],
+
+         "responses": ["ajouter un évènement"],
+
+         "context_set": ""
+
+        },
+
+        {"tag": "supprimer un évènement",
+
+         "patterns": ["supprimer un évènements dans mon calendrier", "supprimer un évènement", "supprimer un éléments à mon calendrier"],
+
+         "responses": ["supprimer un évènement"],
+
+         "context_set": ""
+
+        },
+
+        {"tag": "mettre un minuteur",
+
+         "patterns": ["Met un minuteur de", "démarre un miniteur de ", "met un minuteur dans"],
+
+         "responses": ["mettre un minuteur"],
+
+         "context_set": ""
+
+        },
+
+        {"tag": "arrêter le minuteur",
+
+         "patterns": ["arrête le minuteur", "coupe le moniteur", "stop le minuteur"],
+
+         "responses": ["arrêter le minuteur"],
+
+         "context_set": ""
+
+        },
+
+         {"tag": "mettre une alarme",
+
+         "patterns": ["Met une alarme à ", "Met une alarme"],
+
+         "responses": ["mettre une alarme"],
+
+         "context_set": ""
+
+        },
+
+        {"tag": "erreur",
+
+         "patterns": [],
+
+         "responses": ["Je ne pense pas savoir comment vous aider", "Je n'ai pas compris, veuillez répéter"],
+
+         "context_set": ""
+
+        },
+
+        {"tag": "arrêter l'alarme",
+
+         "patterns": ["arrête l'alarme", "coupe l'alarme", "stop l'alarme"],
+
+         "responses": ["arrêter l'alarme"],
+
+         "context_set": ""
+
+        },
+
+        {"tag": "envoyer un mail",
+
+         "patterns": ["envoyer un mail", "envoie un email", "envoyer un email", "envoie un mail", "peux-tu envoyer un mail", "peux-tu envoyer un email"],
+
+         "responses": ["envoyer un mail"],
+
+         "context_set": ""
+
+        },
+
+        {"tag": "actualité",
+
+         "patterns": ["Donne moi les dernières actualités", "Quelles sont les infos du jours", "donne moi les infos du jour", "actualités du jour", "informations du jour"],
+
+         "responses": ["actualité"],
+
+         "context_set": ""
+
+        },
+
+        {"tag": "déplacement",
+
+         "patterns": ["déplace-toi", "déplace-toi dans la pièce", "balade-toi"],
+
+         "responses": ["déplacement"],
+
+         "context_set": ""
+
+        },
+
+        {"tag": "météo",
+
+         "patterns": ["Donne moi la météo", "peux-tu me donner la météo", "Quel temps fait-il", "Quel est le temps aujourd'hui ?"],
+
+         "responses": ["météo"],
+
+         "context_set": ""
+
+        },
+
+        {"tag": "température",
+
+         "patterns": ["Donne-moi la température", "Quelle température fait-il", "Quel chaleur y a t'il ici ?"],
+
+         "responses": ["Je ne pense pas savoir comment vous aider", "Je n'ai pas compris, veuillez répéter"],
+
+         "context_set": ""
+
+        },
+
+        {"tag": "blague",
+
+         "patterns": ["Raconte-moi une blague", "dis-moi une blague", "peux-tu me raconter une blague", "donne moi une bonne blague", "fais moi rire", "peux-tu me faire rigoler"],
+
+         "responses": ["blague"],
+
+         "context_set": ""
+
+        },
+
+        {"tag": "veille",
+
+         "patterns": ["Met le robot en veille", "Met-toi en veille", "coupe-toi"],
+
+         "responses": ["mise en veille"],
+
+         "context_set": ""
+
+        },
+
+        {"tag": "fichier configuration",
+
+         "patterns": ["Modifier le fichier de configuration", "peux-tu modifier le fichier de configuration"],
+
+         "responses": ["Je ne pense pas savoir comment vous aider", "Je n'ai pas compris, veuillez répéter"],
 
          "context_set": ""
 
         }
-
-   ]
+  ]
 
 }

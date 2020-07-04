@@ -47,12 +47,13 @@ def speak(text,file):
         ('d', 'f88dda1b76a1b76931320d9f8810330ee9f6df88dd'),
     )
     filename="sounds/"+file+".mp3"
+    print(filename)
     with requests.get('https://cache-a.oddcast.com/tts/gen.php', headers=headers, params=params, stream=True) as r:
         with open(filename, 'wb') as f:
             shutil.copyfileobj(r.raw, f)
 
 
-    os.system("mpg123 "+filename)
+    #os.system("mpg123 "+filename)
     sys.exit()
 
 mot = sys.argv[1]

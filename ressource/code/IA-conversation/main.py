@@ -6,7 +6,9 @@ import random
 import json
 import pickle
 from nltk.stem.lancaster import LancasterStemmer
+import os
 
+nltk.download('punkt')
 stemmer = LancasterStemmer()
 
 with open("json file/intents.json", encoding='utf-8') as file:
@@ -76,7 +78,6 @@ model = tflearn.DNN(net)
 
 try:
     model.load("model.tflearn")
-
 except:
     model.fit(training, output, n_epoch=1000, batch_size=8, show_metric=True)
     model.save("model.tflearn")
@@ -107,13 +108,17 @@ def chat():
         results = model.predict([bag_of_words(inp, words)])
         results_index = numpy.argmax(results)
         tag = labels[results_index]
-
+        print(tag)
         for tg in data["intents"]:
             if tg['tag'] == tag:
                 responses = tg['responses']
-
         print(responses)
-        print(random.choice(responses))
+        length = len(responses)
+        nbr = random.randint(0, length-1)
+        tag = tag.replace(" ", "-")
+        phrase = tag + "-" + str(nbr)
+        os.system("mpg123" + " ../sounds/"+phrase+".mp3")
+        print(responses[nbr])
 
 
 chat()
