@@ -1,0 +1,65 @@
+{"intents": [
+
+        {"tag": "salutation",
+
+         "patterns": ["Salut!", "Comment vas-tu ?", "Y a-t'il quelqu'un?", "Bonjour", "Bonne journée", "Yo"],
+
+         "responses": ["Bonjour!", "Quel plaisir de te revoir!", "Bonjour, comment puis-je vous aider?"],
+
+         "context_set": ""
+
+        },
+
+        {"tag": "aurevoir",
+
+         "patterns": ["bye", "A bientôt", "au revoir", "Bonne journée", "tchao"],
+
+         "responses": ["Je suis triste de te voir partir", "A tres vite j'espere", "Salut!"],
+
+         "context_set": ""
+
+        },
+
+        {"tag": "age",
+
+         "patterns": ["quel âge", "quel âge as-tu ?", "quel est ton âge ?", "donne-moi ton âge", "age?"],
+
+         "responses": ["J'ai 22 ans!", "Je suis âgé de 22 ans"],
+
+         "context_set": ""
+
+        },
+
+        {"tag": "nom",
+
+         "patterns": ["Quel est ton nom ?", "Comment t'appelles-tu ?", "ton nom", "quel est ton nom"],
+
+         "responses": ["Mon nom est Guillaume", "Je m'appelle Guillaume", "Je suis Guillaume"],
+
+         "context_set": ""
+
+        },
+
+        {"tag": "shop",
+
+         "patterns": ["Id like to buy something", "whats on the menu", "what do you reccommend?", "could i get something to eat"],
+
+         "responses": ["We sell chocolate chip cookies for $2!", "Cookies are on the menu!"],
+
+         "context_set": ""
+
+        },
+
+        {"tag": "hours",
+
+         "patterns": ["when are you guys open", "what are your hours", "hours of operation"],
+
+         "responses": ["We are open 7am-4pm Monday-Friday!"],
+
+         "context_set": ""
+
+        }
+
+   ]
+
+}

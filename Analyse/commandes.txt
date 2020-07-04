@@ -1,0 +1,51 @@
+- Salutation
+- Humeur
+- présentation
+- au revoir
+- erreur
+
+Agenda : 
+
+- lire les évènements à venir
+- lire les évènements à une date précise
+- ajouter un évènements
+- supprimer un évènements
+
+Alarme :
+
+- mettre un minuteur
+- mettre une alarme
+- arrêter une alarme
+- arrêter un minuteur
+
+Mail :
+
+- envoyer un mail
+
+Actualité :
+
+- lire les dernières actualités
+
+Robot : 
+
+- se déplacer dans la pièce
+
+Météo : 
+
+- avoir la météo
+
+Température de la pièce :
+
+- donner la température
+
+Blague :
+
+- raconter une blague
+
+Mise en veille du robot :
+
+- mettre le robot en veille
+
+Modifier le fichier de configuration :
+
+- modifier le fichier de configuration
