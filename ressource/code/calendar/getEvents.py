@@ -6,6 +6,7 @@ from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from gtts import gTTS
+import os
 
 SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
 
@@ -56,7 +57,7 @@ def main():
     for i in events:
         nbrEvent = nbrEvent + 1
     strg = "Vous avez " + str(nbrEvent) + "évènements à venir"
-    speak(strg)
+    os.system("python3 talking/tts.py '" + strg + "'")
     for event in events:
         start = event['start'].get('dateTime', event['start'].get('date'))
         print(start, event['summary'])
@@ -65,6 +66,6 @@ def main():
         print("Jour : " + start[8:10])
         strg = event['summary'] + " le " + start[8:10] + " " + mois[int(start[5:7])]
         print(strg)
-        speak(strg)
+        os.system("python3 talking/tts.py '" + strg + "'")
 
 main()

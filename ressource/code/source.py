@@ -14,6 +14,14 @@ import sys
 from mutagen.mp3 import MP3
 from time import sleep
 from playsound import playsound
+import nltk
+import numpy
+import tflearn
+import tensorflow
+import random
+import json
+import pickle
+from nltk.stem.lancaster import LancasterStemmer
 
 # If modifying these scopes, delete the file token.pickle.
 SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
@@ -24,29 +32,107 @@ moisNbre={'janvier':1,'février':2,'mars':3,'avril':4,'mai':5,'juin':6,'juillet'
 serverMACAddress = '98:D3:33:F5:AE:4D'
 port = 1
 
-def speak(text):
-    tts = gTTS(text=text, lang='fr')
-    filename="voice.mp3"
-    tts.save(filename)
-    os.system("mpg123 "+'voice.mp3')
+# ---------------------------------------------------- IA Initialisation
+nltk.download('punkt')
+stemmer = LancasterStemmer()
 
-def speakEnglish(text):
-    tts = gTTS(text=text, lang='en')
-    filename="voice.mp3"
-    tts.save(filename)
-    os.system("mpg123 "+'voice.mp3')
+with open("IA-conversation/json file/intents.json", encoding='utf-8') as file:
+    data = json.load(file)
+
+try:
+    with open("IA-conversation/data.pickle", "rb") as f:
+        words, labels, training, output = pickle.load(f)
+except:
+    words = []
+    labels = []
+    docs_x = []
+    docs_y = []
+
+    for intent in data["intents"]:
+        for pattern in intent["patterns"]:
+            wrds = nltk.word_tokenize(pattern)
+            words.extend(wrds)
+            docs_x.append(wrds)
+            docs_y.append(intent["tag"])
+
+        if intent["tag"] not in labels:
+            labels.append(intent["tag"])
+
+    words = [stemmer.stem(w.lower()) for w in words if w != "?"]
+    words = sorted(list(set(words)))
+
+    labels = sorted(labels)
+
+    training = []
+    output = []
+
+    out_empty = [0 for _ in range(len(labels))]
+
+    for x, doc in enumerate(docs_x):
+        bag = []
+
+        wrds = [stemmer.stem(w.lower()) for w in doc]
+
+        for w in words:
+            if w in wrds:
+                bag.append(1)
+            else:
+                bag.append(0)
+
+        output_row = out_empty[:]
+        output_row[labels.index(docs_y[x])] = 1
+
+        training.append(bag)
+        output.append(output_row)
+
+    training = numpy.array(training)
+    output = numpy.array(output)
+
+    with open("IA-conversation/data.pickle", "wb") as f:
+        pickle.dump((words, labels, training, output), f)
+
+tensorflow.reset_default_graph()
+
+net = tflearn.input_data(shape=[None, len(training[0])])
+net = tflearn.fully_connected(net, 8)
+net = tflearn.fully_connected(net, 8)
+net = tflearn.fully_connected(net, len(output[0]), activation="softmax")
+net = tflearn.regression(net)
+
+model = tflearn.DNN(net)
+
+try:
+    model.load("IA-conversation/model.tflearn")
+except:
+    model.fit(training, output, n_epoch=1000, batch_size=8, show_metric=True)
+    model.save("IA-conversation/model.tflearn")
+
+
+def bag_of_words(s, words):
+    bag = [0 for _ in range(len(words))]
+
+    s_words = nltk.word_tokenize(s)
+    s_words = [stemmer.stem(word.lower()) for word in s_words]
+
+    for se in s_words:
+        for i, w in enumerate(words):
+            if w == se:
+                bag[i] = 1
+
+    return numpy.array(bag)
+
 
 #Connection au bluetooth
-try:
-    s = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
-    s.connect((serverMACAddress, port))
-except Exception as e:
-    print("Exception : " + str(e))
-    print("Une erreur est survenue")
-    audio = MP3("sounds/erreur.mp3")
-    player = os.system("mpg123 "+"sounds/erreur.mp3")
-    speakEnglish(str(e))
-    sys.exit()
+#try:
+#    s = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
+#    s.connect((serverMACAddress, port))
+#except Exception as e:
+#    print("Exception : " + str(e))
+#    print("Une erreur est survenue")
+#    audio = MP3("sounds/erreur.mp3")
+#    player = os.system("mpg123 "+"sounds/erreur.mp3")
+#    speakEnglish(str(e))
+#    sys.exit()
 
 def get_audio():
     r = sr.Recognizer()
@@ -71,11 +157,37 @@ player = os.system("mpg123 "+'sounds/actionChoix.mp3')
 while 1:
 
     text = ""
-    commande = get_audio()
-    if commande == "Salut":
-        player = os.system("mpg123 "+'sounds/caVa.mp3')
+    # commande = get_audio()
 
-    if commande == "donne-moi les événements à venir":
+    global responses
+    global commande
+    print("Start talking with the bot (type quit to stop)!")
+    inp = input("You: ")
+    if inp.lower() == "quit":
+        break
+
+    results = model.predict([bag_of_words(inp, words)])
+    results_index = numpy.argmax(results)
+    tag = labels[results_index]
+    print(tag)
+    for tg in data["intents"]:
+        if tg['tag'] == tag:
+            responses = tg['responses']
+    print(responses)
+    length = len(responses)
+    nbr = random.randint(0, length - 1)
+    commande = tag
+    tag = tag.replace(" ", "-")
+    phrase = tag + "-" + str(nbr)
+    os.system("mpg123" + " sounds/" + phrase + ".mp3")
+    print(responses[nbr])
+
+    print(commande)
+
+    if commande == "blague":
+        os.system("python3 API-requests/getJoke.py")
+
+    if commande == "lire évènements à venir":
         player = os.system("mpg123 "+'sounds/rechercheCalendrier.mp3')
         os.system("python3 calendar/getEvents.py")
 
@@ -122,4 +234,4 @@ while 1:
         break
 
 
-    s.send(text)
+    #s.send(text)

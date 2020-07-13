@@ -14,7 +14,17 @@
 
          "patterns": ["bye", "A bientôt", "au revoir", "Bonne journée", "tchao"],
 
-         "responses": ["Je suis triste de te voir partir", "A tres vite j'espere", "Salut!", "Bonne journée !"],
+         "responses": ["Je suis triste de te voir partir", "A tres vite j'espère", "Salut!", "Bonne journée !"],
+
+         "context_set": ""
+
+        },
+
+        {"tag": "humeur",
+
+         "patterns": ["comment ca va ?", "comment ca va", "est-ce que tu vas bien ?", "tu vas bien ?", "vas bien ?"],
+
+         "responses": ["Je vais très bien, merci", "Quand je suis avec toi, je vais toujours bien", "Bien merci!", "Je suis toujours de bon humeur comme je n'ai pas de sentiments"],
 
          "context_set": ""
 
@@ -185,7 +195,7 @@
 
          "patterns": ["Donne-moi la température", "Quelle température fait-il", "Quel chaleur y a t'il ici ?"],
 
-         "responses": ["Je ne pense pas savoir comment vous aider", "Je n'ai pas compris, veuillez répéter"],
+         "responses": ["température"],
 
          "context_set": ""
 
@@ -195,7 +205,7 @@
 
          "patterns": ["Raconte-moi une blague", "dis-moi une blague", "peux-tu me raconter une blague", "donne moi une bonne blague", "fais moi rire", "peux-tu me faire rigoler"],
 
-         "responses": ["blague"],
+         "responses": ["Très bien, voici une blague", "Biensur, voici ma meilleure blague"],
 
          "context_set": ""
 
