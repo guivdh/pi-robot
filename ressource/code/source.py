@@ -191,6 +191,9 @@ while 1:
         player = os.system("mpg123 "+'sounds/rechercheCalendrier.mp3')
         os.system("python3 calendar/getEvents.py")
 
+    if commande == "actualité":
+        os.system("python3 API-requests/getNews.py")
+
     if("donne-moi les événements du" in commande):
         rep = commande.split()
         longueur = len(rep)

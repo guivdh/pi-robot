@@ -165,7 +165,7 @@
 
          "patterns": ["Donne moi les dernières actualités", "Quelles sont les infos du jours", "donne moi les infos du jour", "actualités du jour", "informations du jour"],
 
-         "responses": ["actualité"],
+         "responses": ["très bien, voici les actualitées du jour"],
 
          "context_set": ""
 
