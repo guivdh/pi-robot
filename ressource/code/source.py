@@ -22,6 +22,8 @@ import random
 import json
 import pickle
 from nltk.stem.lancaster import LancasterStemmer
+import threading
+import re
 
 # If modifying these scopes, delete the file token.pickle.
 SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
@@ -152,8 +154,15 @@ def get_audio():
             os.system("mpg123 "+"sounds/erreur.mp3")
     return said
 
-player = os.system("mpg123 "+'sounds/actionChoix.mp3')
+def minuteur(nb):
+    for i in range(nb):
+        time.sleep(1)
+    os.system("mpg123 sounds/alarme.mp3")
 
+
+
+# Lancement du programme
+player = os.system("mpg123 "+'sounds/actionChoix.mp3')
 while 1:
 
     text = ""
@@ -194,6 +203,27 @@ while 1:
     if commande == "actualité":
         os.system("python3 API-requests/getNews.py")
 
+    if commande == "mettre un minuteur":
+        txt = inp.split("de")
+        if "secon" in txt[1]:
+            nbr = int(re.search(r'\d+', txt[1]).group())
+            strg = "Très bien, je lance un minuteur de " + str(nbr) + " secondes"
+            os.system("python3 talking/tts.py '" + strg + "'")
+            a = threading.Thread(None, minuteur, None, (nbr,))
+            a.start()
+        if "minute" in txt[1]:
+            nbr = int(re.search(r'\d+', txt[1]).group())
+            strg = "Très bien, je lance un minuteur de " + str(nbr) + " minutes"
+            os.system("python3 talking/tts.py '" + strg + "'")
+            a = threading.Thread(None, minuteur, None, (nbr*60,))
+            a.start()
+        if "heure" in txt[1]:
+            nbr = int(re.search(r'\d+', txt[1]).group())
+            strg = "Très bien, je lance un minuteur de " + str(nbr) + " heures"
+            os.system("python3 talking/tts.py '" + strg + "'")
+            a = threading.Thread(None, minuteur, None, (nbr * 3600,))
+            a.start()
+            
     if("donne-moi les événements du" in commande):
         rep = commande.split()
         longueur = len(rep)

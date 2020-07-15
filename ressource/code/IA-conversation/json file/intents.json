@@ -105,7 +105,7 @@
 
          "patterns": ["Met un minuteur de", "démarre un miniteur de ", "met un minuteur dans"],
 
-         "responses": ["mettre un minuteur"],
+         "responses": [""],
 
          "context_set": ""
 
@@ -115,7 +115,7 @@
 
          "patterns": ["arrête le minuteur", "coupe le moniteur", "stop le minuteur"],
 
-         "responses": ["arrêter le minuteur"],
+         "responses": [""],
 
          "context_set": ""
 
@@ -125,7 +125,7 @@
 
          "patterns": ["Met une alarme à ", "Met une alarme"],
 
-         "responses": ["mettre une alarme"],
+         "responses": [""],
 
          "context_set": ""
 
