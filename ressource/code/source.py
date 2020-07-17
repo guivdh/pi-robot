@@ -272,6 +272,9 @@ while 1:
                 a = threading.Thread(None, minuteur, None, (nbr * 3600,))
                 a.start()
 
+        if commande == "météo":
+            os.system("python3 API-requests/getWeather.py")
+
         if("donne-moi les événements du" in commande):
             rep = commande.split()
             longueur = len(rep)
