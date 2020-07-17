@@ -6,9 +6,23 @@ def affiche(nb):
         time.sleep(1)
     print("Fin du temps")
 
-a = threading.Thread(None, affiche, None, (60,))
-a.start()
 
-for i in range(60):
-    inp = input("You: ")
-    print(inp)
+def humeur():
+    print("thread")
+    while True:
+        nbr = ""
+        f = open("../config/data.txt", "r")
+        txt = f.read()
+        data = txt.split("=")
+        nbr = int(data[1])
+        newNbr = nbr - 1
+        print(newNbr)
+        a = open("../config/data.txt", "w")
+        string = "humeur="+str(newNbr)
+        a.write(string)
+        f.close()
+        a.close()
+        time.sleep(2)
+
+humeur = threading.Thread(None, humeur, None, ())
+humeur.start()
