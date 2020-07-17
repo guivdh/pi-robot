@@ -1,1 +1,1 @@
-humeur=1000
+humeur=990

@@ -64,7 +64,7 @@
 
          "patterns": ["Qu'y a t'il dans mon calendrier", "dis moi mes évènements à venir", "lire calendrier", "lire évènements"],
 
-         "responses": ["lire les évènements à venir"],
+         "responses": [""],
 
          "context_set": ""
 
@@ -75,7 +75,7 @@
          "patterns": ["Quels sont les évènements pour le jour de", "Qu'est-ce que j'ai de prévu pour le", "Qu'est-ce que j'ai de prévu pour la journée du", "lire évènements de la journée du",
          "lire calendrier de la journée du", "Qu'y a t'il dans mon calendrier pour la journée du"],
 
-         "responses": ["lire les évènements à venir à une date précise"],
+         "responses": [""],
 
          "context_set": ""
 
@@ -85,7 +85,7 @@
 
          "patterns": ["Ajouter un évènements dans mon calendrier", "ajouter un évènement", "ajouter un éléments à mon calendrier"],
 
-         "responses": ["ajouter un évènement"],
+         "responses": [""],
 
          "context_set": ""
 
@@ -95,7 +95,7 @@
 
          "patterns": ["supprimer un évènements dans mon calendrier", "supprimer un évènement", "supprimer un éléments à mon calendrier"],
 
-         "responses": ["supprimer un évènement"],
+         "responses": [""],
 
          "context_set": ""
 
@@ -145,7 +145,7 @@
 
          "patterns": ["arrête l'alarme", "coupe l'alarme", "stop l'alarme"],
 
-         "responses": ["arrêter l'alarme"],
+         "responses": [""],
 
          "context_set": ""
 
@@ -155,7 +155,7 @@
 
          "patterns": ["envoyer un mail", "envoie un email", "envoyer un email", "envoie un mail", "peux-tu envoyer un mail", "peux-tu envoyer un email"],
 
-         "responses": ["envoyer un mail"],
+         "responses": [""],
 
          "context_set": ""
 
@@ -175,7 +175,7 @@
 
          "patterns": ["déplace-toi", "déplace-toi dans la pièce", "balade-toi"],
 
-         "responses": ["déplacement"],
+         "responses": [""],
 
          "context_set": ""
 
@@ -185,7 +185,7 @@
 
          "patterns": ["Donne moi la météo", "peux-tu me donner la météo", "Quel temps fait-il", "Quel est le temps aujourd'hui ?"],
 
-         "responses": ["météo"],
+         "responses": [""],
 
          "context_set": ""
 
@@ -195,7 +195,7 @@
 
          "patterns": ["Donne-moi la température", "Quelle température fait-il", "Quel chaleur y a t'il ici ?"],
 
-         "responses": ["température"],
+         "responses": [""],
 
          "context_set": ""
 
@@ -226,6 +226,16 @@
          "patterns": ["Modifier le fichier de configuration", "peux-tu modifier le fichier de configuration"],
 
          "responses": ["Je ne pense pas savoir comment vous aider", "Je n'ai pas compris, veuillez répéter"],
+
+         "context_set": ""
+
+        },
+
+        {"tag": "nuit",
+
+         "patterns": ["Bonne nuit", "passe en mode nuit", "tu peux passer en mode nuit"],
+
+         "responses": ["Bonne nuit à vous", "Je vous souhaite une bonne nuit"],
 
          "context_set": ""
 

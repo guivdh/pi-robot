@@ -30,12 +30,13 @@ import configparser
 cfg = configparser.ConfigParser()
 cfg.read('config/config.cfg')
 
-
 # If modifying these scopes, delete the file token.pickle.
 SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
 
-mois={1:'janvier',2:'février',3:'mars',4:'avril',5:'mai',6:'juin',7:'juillet',8:'août',9:'septembre',10:'octobre',11:'novembre',12:'décembre'}
-moisNbre={'janvier':1,'février':2,'mars':3,'avril':4,'mai':5,'juin':6,'juillet':7,'août':8,'septembre':9,'octobre':10,'novembre':11,'décembre':12}
+mois = {1: 'janvier', 2: 'février', 3: 'mars', 4: 'avril', 5: 'mai', 6: 'juin', 7: 'juillet', 8: 'août', 9: 'septembre',
+        10: 'octobre', 11: 'novembre', 12: 'décembre'}
+moisNbre = {'janvier': 1, 'février': 2, 'mars': 3, 'avril': 4, 'mai': 5, 'juin': 6, 'juillet': 7, 'août': 8,
+            'septembre': 9, 'octobre': 10, 'novembre': 11, 'décembre': 12}
 
 serverMACAddress = '98:D3:33:F5:AE:4D'
 port = 1
@@ -130,11 +131,11 @@ def bag_of_words(s, words):
     return numpy.array(bag)
 
 
-#Connection au bluetooth
-#try:
+# Connection au bluetooth
+# try:
 #    s = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
 #    s.connect((serverMACAddress, port))
-#except Exception as e:
+# except Exception as e:
 #    print("Exception : " + str(e))
 #    print("Une erreur est survenue")
 #    audio = MP3("sounds/erreur.mp3")
@@ -147,9 +148,9 @@ def get_audio():
     print('En écoute !')
     mic = sr.Microphone()
     with mic as source:
-        #r.adjust_for_ambient_noise(source)
+        # r.adjust_for_ambient_noise(source)
         audioSon = r.listen(source)
-        #player = os.system("mpg123 "+'sounds/pop.mp3')
+        # player = os.system("mpg123 "+'sounds/pop.mp3')
         said = ""
 
         try:
@@ -157,8 +158,9 @@ def get_audio():
             print(said)
         except Exception as e:
             print("Exception : " + str(e))
-            #os.system("mpg123 "+"sounds/erreur.mp3")
+            # os.system("mpg123 "+"sounds/erreur.mp3")
     return said
+
 
 def minuteur(nb):
     for i in range(nb):
@@ -175,11 +177,12 @@ def humeurMoins():
         nbr = int(data[1])
         newNbr = nbr - 1
         a = open("config/data.txt", "w")
-        string = "humeur="+str(newNbr)
+        string = "humeur=" + str(newNbr)
         a.write(string)
         f.close()
         a.close()
         time.sleep(15)
+
 
 def humeurPlus():
     nbr = ""
@@ -189,37 +192,37 @@ def humeurPlus():
     nbr = int(data[1])
     newNbr = nbr + 1
     a = open("config/data.txt", "w")
-    string = "humeur="+str(newNbr)
+    string = "humeur=" + str(newNbr)
     a.write(string)
     f.close()
     a.close()
+
 
 # Lancement du programme
 
 WAKE = "simbot"
 
-player = os.system("mpg123 "+'sounds/actionChoix.mp3')
+player = os.system("mpg123 " + 'sounds/actionChoix.mp3')
 
 humeur = threading.Thread(None, humeurMoins, None)
 humeur.start()
 
-
 while 1:
 
-    #text = get_audio()
+    # text = get_audio()
     text = input("you: ")
     if text.lower == "quit":
         break
 
-    if text.count(WAKE) > 0 :
+    if text.count(WAKE) > 0:
         os.system("mpg123 " + 'sounds/pop.mp3')
-        #inp = get_audio()
+        # inp = get_audio()
         inp = input("you :")
 
         global responses
         global commande
         print("Start talking with the bot (type quit to stop)!")
-        #inp = input("You: ")
+        # inp = input("You: ")
         if inp.lower() == "tu peux quitter":
             break
 
@@ -245,7 +248,7 @@ while 1:
             os.system("python3 API-requests/getJoke.py")
 
         if commande == "lire évènements à venir":
-            player = os.system("mpg123 "+'sounds/rechercheCalendrier.mp3')
+            player = os.system("mpg123 " + 'sounds/rechercheCalendrier.mp3')
             os.system("python3 calendar/getEvents.py")
 
         if commande == "actualité":
@@ -263,7 +266,7 @@ while 1:
                 nbr = int(re.search(r'\d+', txt[1]).group())
                 strg = "Très bien, je lance un minuteur de " + str(nbr) + " minutes"
                 os.system("python3 talking/tts.py '" + strg + "'")
-                a = threading.Thread(None, minuteur, None, (nbr*60,))
+                a = threading.Thread(None, minuteur, None, (nbr * 60,))
                 a.start()
             if "heure" in txt[1]:
                 nbr = int(re.search(r'\d+', txt[1]).group())
@@ -275,30 +278,31 @@ while 1:
         if commande == "météo":
             os.system("python3 API-requests/getWeather.py")
 
-        if("donne-moi les événements du" in commande):
+        if "donne-moi les événements du" in commande:
             rep = commande.split()
             longueur = len(rep)
-            print('Mois = ' + str(moisNbre[rep[longueur-1]]))
-            print('Jour = ' + rep[longueur-2])
-            os.system("python3 calendar/getEventsDay.py '"+str(rep[longueur-2])+'\' \''+str(moisNbre[rep[longueur-1]])+'\'')
-            #speak("Je recherche les événements du " + )
-            #os.system("python3 calendar/getEventsDay.py")
+            print('Mois = ' + str(moisNbre[rep[longueur - 1]]))
+            print('Jour = ' + rep[longueur - 2])
+            os.system("python3 calendar/getEventsDay.py '" + str(rep[longueur - 2]) + '\' \'' + str(
+                moisNbre[rep[longueur - 1]]) + '\'')
+            # speak("Je recherche les événements du " + )
+            # os.system("python3 calendar/getEventsDay.py")
 
         if commande == "allume la LED":
             text = 'on'
-            os.system("mpg123 "+'sounds/ledON.mp3')
+            os.system("mpg123 " + 'sounds/ledON.mp3')
 
         if commande == "éteins la LED":
             text = 'off'
-            os.system("mpg123 "+'sounds/ledOFF.mp3')
+            os.system("mpg123 " + 'sounds/ledOFF.mp3')
 
-        if commande == "donne-moi la température":
+        if commande == "température":
             s.send("temperature")
             data1 = s.recv(1024)
             time.sleep(0.5)
             s.send("temperature")
             data2 = s.recv(1024)
-            data = data1+data2
+            data = data1 + data2
             strg = "Il fait actuellement" + data.decode("utf-8") + "degré dans la pièce"
             speak(strg)
 
@@ -309,13 +313,7 @@ while 1:
             s.send("arret")
 
         if commande == "tu peux quitter":
-            # Local time without timezone information printed in ISO 8601 format
-            date1 = datetime.datetime(1996, 12, 11)
-
-            # Date time separator is a "#" symbol
-            min=(date1.isoformat("T"))
-            print(min)
             break
 
         humeurPlus()
-        #s.send(text)
+        # s.send(text)
