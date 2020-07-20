@@ -38,6 +38,9 @@ void setup()
   monServomoteur1.attach(22);
   monServomoteur2.attach(23);
   monServomoteur3.attach(24);
+
+  monServomoteur2.write(180);
+  monServomoteur3.write(180);
   
   Serial.begin(9600);
   Serial.println("Initialisation du programme");
