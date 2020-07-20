@@ -25,10 +25,19 @@ from nltk.stem.lancaster import LancasterStemmer
 import threading
 import re
 import configparser
+import pymysql
 
 # Lecture du fichier de configuration
 cfg = configparser.ConfigParser()
 cfg.read('config/config.cfg')
+
+
+mydb = pymysql.connect(
+  host="51.77.201.156",
+  user="guivdh",
+  password="BKD6Vccy9SPRx56k"
+)
+
 
 # If modifying these scopes, delete the file token.pickle.
 SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
@@ -111,7 +120,8 @@ net = tflearn.regression(net)
 model = tflearn.DNN(net)
 
 try:
-    model.load("IA-conversation/model.tflearn")
+    #model.load("IA-conversation/model.tflearn")
+    xxx
 except:
     model.fit(training, output, n_epoch=1000, batch_size=8, show_metric=True)
     model.save("IA-conversation/model.tflearn")
@@ -211,8 +221,8 @@ while 1:
 
     # text = get_audio()
     text = input("you: ")
-    if text.lower == "quit":
-        break
+    if text == "quit":
+        sys.exit(0)
 
     if text.count(WAKE) > 0:
         os.system("mpg123 " + 'sounds/pop.mp3')
@@ -224,7 +234,7 @@ while 1:
         print("Start talking with the bot (type quit to stop)!")
         # inp = input("You: ")
         if inp.lower() == "tu peux quitter":
-            break
+            sys.exit(0)
 
         results = model.predict([bag_of_words(inp, words)])
         results_index = numpy.argmax(results)

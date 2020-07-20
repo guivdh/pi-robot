@@ -29,6 +29,33 @@
          "context_set": ""
 
         },
+        {"tag": "origine",
+
+         "patterns": ["D'où viens-tu", "Qu'elle est ton origine ?", "Origine", "Pourquoi as-tu été créé"],
+
+         "responses": ["J'ai été créé par un étudiant dans le cadre d'un TFE et ayant pour but d'apporter mes services aux personnes qui en ont besoin!"],
+
+         "context_set": ""
+
+        },
+        {"tag": "mail",
+
+         "patterns": ["Peux-tu envoyer un mail", "mail", "email", "Envoie un mail", "Envoyer un email"],
+
+         "responses": [""],
+
+         "context_set": ""
+
+        },
+        {"tag": "Problème",
+
+         "patterns": ["J'aimerais signaler un prblème", "Signaler un problème", "J'ai un problème"],
+
+         "responses": [],
+
+         "context_set": ""
+
+        },
 
         {"tag": "présentation",
 
