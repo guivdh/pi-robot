@@ -6,7 +6,6 @@ cfg = configparser.ConfigParser()
 cfg.read('config/config.cfg')
 
 source = cfg.get('news', 'source')
-source = source.replace("'", "")
 
 
 url = ('http://newsapi.org/v2/top-headlines?'
