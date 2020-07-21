@@ -1,21 +1,22 @@
 ![robot concept](https://github.com/guivdh/simbot/blob/master/ressource/images/h8D2F51EA.jpg)
 # Simbot
-Conception d'un robot autonome dans le cadre du TFE à l'EPHEC.
+Conception d'un robot assistant et divertissant pour personnages âgées ou à mobilité réduite dans le cadre du TFE à l'EPHEC.
 
 ## Concept
-PIbot est un robot autonome capable d'interagir avec son environnement via une communication physique et vocale.
-Il aura pour objectif d'apporter un soutient et une présence "humaine" aux personnes âgées.
+Simbot est un robot capable d'interagir avec son environnement via une communication physique et vocale.
+Il aura pour objectif d'apporter un soutient et une présence aux personnes dans le besoin.
 
 ## Fonctionnalités principales
 - [ ] Répondre à des questions spécifiques
 - [ ] Construire une conversation
-- [ ] Reconnaître le visage d'une personne
+- [ ] Gérer un agenda
+- [ ] Mettre une alarme
 - [ ] Se rappeler d'une tâche
-- [ ] Effectuer des rappels sur base d'un calendrier
 - [ ] Se déplacer de façon autonome dans une pièce
 - [ ] Envoyer un mail avec une commande vocale
 - [ ] Réagire à une interaction physique
-- [ ] Etc
+- [ ] Avoir les dernières actualitées
+- [ ] ...
 
 ## Technologies utilisées pour la conception
 * Raspberry-pi
@@ -24,3 +25,5 @@ Il aura pour objectif d'apporter un soutient et une présence "humaine" aux pers
 * C++
 * Électronique
 * Serveur linux
+* Node.js
+* MySQL
