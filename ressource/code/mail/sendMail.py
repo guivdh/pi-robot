@@ -8,7 +8,7 @@ EMAIL_ADDRESS = "noreply.simbot@gmail.com"
 EMAIL_PASSWORD = "79nXLir62M"
 
 cfg = configparser.ConfigParser()
-cfg.read('../config/config.cfg')
+cfg.read('config/config.cfg')
 
 body = sys.argv[2]
 dest = sys.argv[1]

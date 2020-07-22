@@ -120,8 +120,7 @@ net = tflearn.regression(net)
 model = tflearn.DNN(net)
 
 try:
-    #model.load("IA-conversation/model.tflearn")
-    xxx
+    model.load("IA-conversation/model.tflearn")
 except:
     model.fit(training, output, n_epoch=1000, batch_size=8, show_metric=True)
     model.save("IA-conversation/model.tflearn")
@@ -171,41 +170,37 @@ def get_audio():
             # os.system("mpg123 "+"sounds/erreur.mp3")
     return said
 
+def speak(phrase):
+    os.system("python3 talking/tts.py '" + phrase + "'")
 
 def minuteur(nb):
     for i in range(nb):
         time.sleep(1)
     os.system("mpg123 sounds/alarme.mp3")
 
+def alarme(alarme):
+    while True:
+        heure = time.localtime()
+        print("Heure : " + str(heure[3]) + 'h' + str(heure[4]) + " - Alarme : " + alarme)
+        if alarme == str(heure[3]) + 'h' + str(heure[4]):
+            os.system("mpg123 sounds/alarme.mp3")
+            break
+        time.sleep(1)
 
 def humeurMoins():
     while True:
-        nbr = ""
-        f = open("config/data.txt", "r")
-        txt = f.read()
-        data = txt.split("=")
-        nbr = int(data[1])
-        newNbr = nbr - 1
-        a = open("config/data.txt", "w")
-        string = "humeur=" + str(newNbr)
-        a.write(string)
-        f.close()
-        a.close()
+        nbr = cfg.get('bot', 'humeur')
+        newNbr = int(nbr) - 1
+        cfg.set('bot', 'humeur', str(newNbr))
+        cfg.write(open('config/config.cfg', 'w'))
         time.sleep(15)
 
 
 def humeurPlus():
-    nbr = ""
-    f = open("config/data.txt", "r")
-    txt = f.read()
-    data = txt.split("=")
-    nbr = int(data[1])
-    newNbr = nbr + 1
-    a = open("config/data.txt", "w")
-    string = "humeur=" + str(newNbr)
-    a.write(string)
-    f.close()
-    a.close()
+    nbr = cfg.get('bot', 'humeur')
+    newNbr = int(nbr) + 20
+    cfg.set('bot', 'humeur', str(newNbr))
+    cfg.write(open('config/config.cfg', 'w'))
 
 
 # Lancement du programme
@@ -219,15 +214,27 @@ humeur.start()
 
 while 1:
 
-    # text = get_audio()
-    text = input("you: ")
+    text = get_audio()
+    #text = input("you: ")
     if text == "quit":
         sys.exit(0)
 
+    # Si simbot est prononcé, le robot se réveil
+    # s.send('reveil')
     if text.count(WAKE) > 0:
         os.system("mpg123 " + 'sounds/pop.mp3')
-        # inp = get_audio()
-        inp = input("you :")
+
+        nom = cfg.get('user', 'nom')
+
+        # Si le nom de l'utilisateur n'a pas encore été enregistrer, Simbot le lui demande
+        if nom == "undefined":
+            os.system("mpg123 sounds/demandeNom.mp3")
+            nom = input("you: ")
+            cfg.set('user', 'nom', nom)
+            cfg.write(open('config/config.cfg', 'w'))
+
+        inp = get_audio()
+        #inp = input("you :")
 
         global responses
         global commande
@@ -288,8 +295,26 @@ while 1:
         if commande == "météo":
             os.system("python3 API-requests/getWeather.py")
 
+        if commande == "mettre une alarme":
+            txt = inp.split("à")
+            heure = time.localtime()
+            print(txt[1].strip())
+            threadAlarm = threading.Thread(None, alarme, None, (txt[1].strip(),))
+            threadAlarm.start()
+
+        if commande == "envoyer un mail":
+            os.system("mpg123" + " sounds/mail.mp3")
+            os.system("mpg123 " + 'sounds/pop.mp3')
+            dest = get_audio().lower()
+            os.system("mpg123" + " sounds/mailCorps.mp3")
+            os.system("mpg123 " + 'sounds/pop.mp3')
+            body = get_audio()
+            os.system("python3 mail/sendMail.py '" + dest + "' '" + body + "'")
+            os.system("mpg123 " + 'sounds/mailEnvoie.mp3')
+
+
         if "donne-moi les événements du" in commande:
-            rep = commande.split()
+            inp = commande.split()
             longueur = len(rep)
             print('Mois = ' + str(moisNbre[rep[longueur - 1]]))
             print('Jour = ' + rep[longueur - 2])
