@@ -71,33 +71,32 @@ void loop()
     }
 
   // si mon message est egal a "on"  ( + retour chariot et nouvelle ligne )
-  // if message equal to "on" (+ carriage return and newline )
     if(message == "on"){
       digitalWrite(PIN_LED,HIGH); // led on
-    }// else if message off
+      
     else if(message == "off"){
       digitalWrite(PIN_LED,LOW);  // led off
     }
+    
     else if(message == "temperature"){
       getTemperature();
     }
+    
     else if(message == "deplacement"){
       deplacement();
-      while(true){
+      while (BTSerial.available()){
+        // Lecture du message envoyé par le BT
+        // Read message send by BT
+        message = BTSerial.readString();
+        // Ecriture du message dans le serial usb
+        // write in serial usb
+        Serial.println(message);
         if(mesureDistance()<10){
           arret();
         }
-        while (BTSerial.available()){
-          // Lecture du message envoyé par le BT
-          // Read message send by BT
-          message = BTSerial.readString();
-          // Ecriture du message dans le serial usb
-          // write in serial usb
-          Serial.println(message);
-        }
+      }
 
         delay(200);  
-      }  
     }
     else if(message == "arret"){
       arret();
