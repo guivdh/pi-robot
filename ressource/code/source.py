@@ -302,6 +302,13 @@ while 1:
             threadAlarm = threading.Thread(None, alarme, None, (txt[1].strip(),))
             threadAlarm.start()
 
+        if commande == "arrêter l'alarme":
+            if threadAlarm.is_alive():
+                threadAlarm.terminate()
+            else:
+                os.system("mpg123" + " sounds/nonAlarme.mp3")
+
+
         if commande == "envoyer un mail":
             os.system("mpg123" + " sounds/mail.mp3")
             os.system("mpg123 " + 'sounds/pop.mp3')
@@ -312,6 +319,46 @@ while 1:
             os.system("python3 mail/sendMail.py '" + dest + "' '" + body + "'")
             os.system("mpg123 " + 'sounds/mailEnvoie.mp3')
 
+
+        if commande == "ajouter un évènement":
+            os.system("mpg123 " + 'sounds/eventSummary.mp3')
+            summary = get_audio()
+            os.system("mpg123 " + 'sounds/eventLocation.mp3')
+            txt = get_audio()
+            if "oui" in txt:
+                txt = txt.split("à")
+                location = txt[1].strip()
+            else:
+                location = ""
+            os.system("mpg123 " + 'sounds/eventDescription.mp3')
+            txt = get_audio()
+            if "oui" in txt:
+                txt = txt.split("oui")
+                description = txt[1].strip()
+            else:
+                description = ""
+            event = {
+                'summary': summary,
+                'location': location,
+                'description': description,
+                'start': {
+                    'dateTime': '2020-07-25T09:00:00-07:00',
+                    'timeZone': 'Europe/Brussels',
+                },
+                'end': {
+                    'dateTime': '2020-07-25T17:00:00-07:00',
+                    'timeZone': 'Europe/Brussels',
+                },
+                'recurrence': [
+                ],
+                'attendees': [
+                ],
+                'reminders': {
+                    'useDefault': False,
+                    'overrides': [
+                    ],
+                },
+            }
 
         if "donne-moi les événements du" in commande:
             inp = commande.split()

@@ -3,6 +3,7 @@ import imaplib
 import email
 import sys
 import configparser
+import os
 
 EMAIL_ADDRESS = "noreply.simbot@gmail.com"
 EMAIL_PASSWORD = "79nXLir62M"
@@ -33,15 +34,18 @@ else:
         subject = 'Mail de ' + nom
         EMAIL_DEST = cfg.get('mail', dest)
 
-        smtp.ehlo()
-        smtp.starttls()
-        smtp.ehlo()
+        if EMAIL_DEST:
+            smtp.ehlo()
+            smtp.starttls()
+            smtp.ehlo()
 
-        smtp.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
+            smtp.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
 
-        msg = 'Subject : ' + subject + ' \n\n' + body
+            msg = 'Subject : ' + subject + ' \n\n' + body
 
-        smtp.sendmail(EMAIL_ADDRESS, EMAIL_DEST, msg.encode("utf-8"))
-        print(EMAIL_DEST)
-        print(msg)
-        print("Email envoyé !")
+            smtp.sendmail(EMAIL_ADDRESS, EMAIL_DEST, msg.encode("utf-8"))
+            print(EMAIL_DEST)
+            print(msg)
+            print("Email envoyé !")
+        else:
+            os.system('mpg123 sounds/erreurDestinataire.mp3')

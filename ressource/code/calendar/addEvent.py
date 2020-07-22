@@ -16,12 +16,6 @@ mois={1:'janvier',2:'février',3:'mars',4:'avril',5:'mai',6:'juin',7:'juillet',8
 Prints the start and name of the next 10 events on the user's calendar.
 """
 
-def speak(text):
-    tts = gTTS(text=text, lang='fr')
-    filename="voice.mp3"
-    tts.save(filename)
-    os.system("mpg123 "+'voice.mp3')
-
 def main():
     creds = None
     if os.path.exists('token.pickle'):
@@ -42,31 +36,34 @@ def main():
     service = build('calendar', 'v3', credentials=creds)
 
     # Call the Calendar API
+
     event = {
-      'summary': 'test',
-      'description': 'Ceci un test d\'évènement',
-      'start': {
-        'dateTime': '2020-04-01T09:00:00-07:00',
-        'timeZone': 'Europe/Brussels',
-      },
-      'end': {
-        'dateTime': '2020-04-01T12:00:00-07:00',
-        'timeZone': 'Europe/Brussels',
-      },
-      'recurrence': [
-        'RRULE:FREQ=DAILY;COUNT=2'
-      ],
-      'attendees': [
-        {'email': 'guillaume-vdh@skynet.be'},
-      ],
-      'reminders': {
-        'useDefault': true,
-      },
+        'summary': 'Couper les glaçond',
+        'location': '',
+        'description': '',
+        'start': {
+            'dateTime': '2020-07-25T09:00:00-07:00',
+            'timeZone': 'Europe/Brussels',
+        },
+        'end': {
+            'dateTime': '2020-07-25T17:00:00-07:00',
+            'timeZone': 'Europe/Brussels',
+        },
+        'recurrence': [
+        ],
+        'attendees': [
+            {'email': 'lpage@example.com'},
+            {'email': 'sbrin@example.com'},
+        ],
+        'reminders': {
+            'useDefault': False,
+            'overrides': [
+            ],
+        },
     }
 
     event = service.events().insert(calendarId='primary', body=event).execute()
-    print ('Event created: ' + event.get('htmlLink'))
-
+    print('Event created: %s' % (event.get('htmlLink')))
 
 
 main()

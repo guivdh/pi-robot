@@ -16,12 +16,6 @@ mois={1:'janvier',2:'février',3:'mars',4:'avril',5:'mai',6:'juin',7:'juillet',8
 Prints the start and name of the next 10 events on the user's calendar.
 """
 
-def speak(text):
-    tts = gTTS(text=text, lang='fr')
-    filename="voice.mp3"
-    tts.save(filename)
-    os.system("mpg123 "+'voice.mp3')
-
 def main():
     creds = None
     if os.path.exists('token.pickle'):
@@ -54,9 +48,7 @@ def main():
 
     nbrEvent = 0
 
-    for i in events:
-        nbrEvent = nbrEvent + 1
-    strg = "Vous avez " + str(nbrEvent) + "évènements à venir"
+    strg = "Vous avez " + str(len(events)) + " évènements à venir"
     os.system("python3 talking/tts.py '" + strg + "'")
     for event in events:
         start = event['start'].get('dateTime', event['start'].get('date'))
