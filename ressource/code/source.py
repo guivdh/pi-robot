@@ -31,13 +31,12 @@ import pymysql
 cfg = configparser.ConfigParser()
 cfg.read('config/config.cfg')
 
-
 mydb = pymysql.connect(
-  host="51.77.201.156",
-  user="guivdh",
-  password="BKD6Vccy9SPRx56k"
+    host="51.77.201.156",
+    user="guivdh",
+    password="BKD6Vccy9SPRx56k",
+    db='master'
 )
-
 
 # If modifying these scopes, delete the file token.pickle.
 SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
@@ -170,13 +169,16 @@ def get_audio():
             # os.system("mpg123 "+"sounds/erreur.mp3")
     return said
 
+
 def speak(phrase):
     os.system("python3 talking/tts.py '" + phrase + "'")
+
 
 def minuteur(nb):
     for i in range(nb):
         time.sleep(1)
     os.system("mpg123 sounds/alarme.mp3")
+
 
 def alarme(alarme):
     while True:
@@ -186,6 +188,7 @@ def alarme(alarme):
             os.system("mpg123 sounds/alarme.mp3")
             break
         time.sleep(1)
+
 
 def humeurMoins():
     while True:
@@ -214,8 +217,12 @@ humeur.start()
 
 while 1:
 
-    text = get_audio()
-    #text = input("you: ")
+    sql = ""
+    requestType = ""
+    cursor = mydb.cursor()
+
+    # text = get_audio()
+    text = input("you: ")
     if text == "quit":
         sys.exit(0)
 
@@ -233,8 +240,8 @@ while 1:
             cfg.set('user', 'nom', nom)
             cfg.write(open('config/config.cfg', 'w'))
 
-        inp = get_audio()
-        #inp = input("you :")
+        # inp = get_audio()
+        inp = input("you :")
 
         global responses
         global commande
@@ -261,15 +268,20 @@ while 1:
 
         print(commande)
 
+        requestType = 'conversation'
+
         if commande == "blague":
             os.system("python3 API-requests/getJoke.py")
+            requestType = "blague"
 
         if commande == "lire évènements à venir":
             player = os.system("mpg123 " + 'sounds/rechercheCalendrier.mp3')
             os.system("python3 calendar/getEvents.py")
+            requestType = "calendrier"
 
         if commande == "actualité":
             os.system("python3 API-requests/getNews.py")
+            requestType = "actualité"
 
         if commande == "mettre un minuteur":
             txt = inp.split("de")
@@ -291,9 +303,11 @@ while 1:
                 os.system("python3 talking/tts.py '" + strg + "'")
                 a = threading.Thread(None, minuteur, None, (nbr * 3600,))
                 a.start()
+            requestType = "minuteur"
 
         if commande == "météo":
             os.system("python3 API-requests/getWeather.py")
+            requestType = "météo"
 
         if commande == "mettre une alarme":
             txt = inp.split("à")
@@ -301,13 +315,13 @@ while 1:
             print(txt[1].strip())
             threadAlarm = threading.Thread(None, alarme, None, (txt[1].strip(),))
             threadAlarm.start()
+            requestType = "alarme"
 
         if commande == "arrêter l'alarme":
             if threadAlarm.is_alive():
                 threadAlarm.terminate()
             else:
                 os.system("mpg123" + " sounds/nonAlarme.mp3")
-
 
         if commande == "envoyer un mail":
             os.system("mpg123" + " sounds/mail.mp3")
@@ -318,47 +332,60 @@ while 1:
             body = get_audio()
             os.system("python3 mail/sendMail.py '" + dest + "' '" + body + "'")
             os.system("mpg123 " + 'sounds/mailEnvoie.mp3')
-
+            requestType = "mail"
 
         if commande == "ajouter un évènement":
             os.system("mpg123 " + 'sounds/eventSummary.mp3')
-            summary = get_audio()
+            # summary = get_audio()
+            summary = input("you :")
             os.system("mpg123 " + 'sounds/eventLocation.mp3')
-            txt = get_audio()
+            # txt = get_audio()
+            txt = input("you :")
             if "oui" in txt:
                 txt = txt.split("à")
                 location = txt[1].strip()
             else:
-                location = ""
+                location = "/"
             os.system("mpg123 " + 'sounds/eventDescription.mp3')
-            txt = get_audio()
+            # txt = get_audio()
+            txt = input("you :")
             if "oui" in txt:
-                txt = txt.split("oui")
-                description = txt[1].strip()
+                description = txt.replace("oui ", "")
             else:
-                description = ""
-            event = {
-                'summary': summary,
-                'location': location,
-                'description': description,
-                'start': {
-                    'dateTime': '2020-07-25T09:00:00-07:00',
-                    'timeZone': 'Europe/Brussels',
-                },
-                'end': {
-                    'dateTime': '2020-07-25T17:00:00-07:00',
-                    'timeZone': 'Europe/Brussels',
-                },
-                'recurrence': [
-                ],
-                'attendees': [
-                ],
-                'reminders': {
-                    'useDefault': False,
-                    'overrides': [
-                    ],
-                },
-            }
+                description = "/"
+            os.system("mpg123 " + 'sounds/dateDebutCalendrier.mp3')
+            # txt=get_audio()
+            txt = input("you :")
+            if "le " in txt.lower():
+                txt = txt.replace("le ", "")
+                txt = txt.lstrip()
+            txt = txt.split(" ")
+            mois = moisNbre[txt[1]]
+            print(str(txt[0]) + "-" + str(mois) + "-" + str(txt[2]))
+            date = str(txt[2]) + "-" + str(mois) + "-" + str(txt[0])
+            os.system("mpg123 " + 'sounds/heureDebutCalendrier.mp3')
+            # txt=get_audio()
+            txt = input("you :")
+            if "à" in txt.lower():
+                txt = txt.replace("à", "")
+                txt = txt.lstrip()
+            txt = txt.split("h")
+            startDateTime = date + "T" + str(txt[0]) + ":" + str(txt[1]) + ":00-07:00"
+            print(startDateTime)
+            os.system("mpg123 " + 'sounds/heureFinCalendrier.mp3')
+            # txt=get_audio()
+            txt = input("you :")
+            if "à" in txt.lower():
+                txt = txt.replace("à", "")
+                txt = txt.lstrip()
+            txt = txt.split("h")
+            endDateTime = date + "T" + str(txt[0]) + ":" + str(txt[1]) + ":00-07:00"
+            print(endDateTime)
+
+            os.system(
+                "python3 calendar/addEvent.py " + summary + " " + location + " " + description + " " + startDateTime
+                + " " + endDateTime)
+            requestType = "lireCalendrier"
 
         if "donne-moi les événements du" in commande:
             inp = commande.split()
@@ -369,14 +396,17 @@ while 1:
                 moisNbre[rep[longueur - 1]]) + '\'')
             # speak("Je recherche les événements du " + )
             # os.system("python3 calendar/getEventsDay.py")
+            requestType = "ajouterEvènementsCalendrier"
 
         if commande == "allume la LED":
             text = 'on'
             os.system("mpg123 " + 'sounds/ledON.mp3')
+            requestType = "robot"
 
         if commande == "éteins la LED":
             text = 'off'
             os.system("mpg123 " + 'sounds/ledOFF.mp3')
+            requestType = "robot"
 
         if commande == "température":
             s.send("temperature")
@@ -387,15 +417,25 @@ while 1:
             data = data1 + data2
             strg = "Il fait actuellement" + data.decode("utf-8") + "degré dans la pièce"
             speak(strg)
+            requestType = "robot"
 
         if commande == "balade toi":
             s.send("deplacement")
+            requestType = "robot"
 
         if commande == "arrête de te balader":
             s.send("arret")
+            requestType = "robot"
 
         if commande == "tu peux quitter":
             break
 
         humeurPlus()
+
+        sql = "INSERT INTO master.request (requestType, requestDate) VALUES ('" + requestType + "', '" + str(
+            int(time.time())) + "');"
+        cursor = mydb.cursor()
+        cursor.execute(sql)
+        mydb.commit()
+
         # s.send(text)
