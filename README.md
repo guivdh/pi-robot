@@ -1,4 +1,4 @@
-![robot concept](https://github.com/guivdh/simbot/blob/master/ressource/images/robot-and-human-hands.jpeg)
+![https://www.tuannguyen.tech/wp-content/uploads/2019/08/robot-and-human-hands.jpeg](https://github.com/guivdh/simbot/blob/master/ressource/images/robot-and-human-hands.jpeg)
 # Simbot
 Conception d'un robot assistant et divertissant pour personnages âgées ou à mobilité réduite dans le cadre du TFE à l'EPHEC.
 
