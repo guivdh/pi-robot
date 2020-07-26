@@ -1,4 +1,4 @@
-![robot concept](https://github.com/guivdh/simbot/blob/master/ressource/images/h8D2F51EA.jpg)
+![robot concept](https://github.com/guivdh/simbot/blob/master/ressource/images/robot-and-human-hands.jpeg)
 # Simbot
 Conception d'un robot assistant et divertissant pour personnages âgées ou à mobilité réduite dans le cadre du TFE à l'EPHEC.
 
