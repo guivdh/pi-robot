@@ -259,14 +259,30 @@ while 1:
                 responses = tg['responses']
         print(responses)
         length = len(responses)
-        nbr = random.randint(0, length - 1)
-        commande = tag
-        tag = tag.replace(" ", "-")
-        phrase = tag + "-" + str(nbr)
-        os.system("mpg123" + " sounds/" + phrase + ".mp3")
-        print(responses[nbr])
+        # choisit un nombre aléatoire entre les différentes réponses
+        #nbr = random.randint(0, length - 1)
+        # en fonction de l'humeur, choisit une réponse
+        if length > 0:
+            nbr = cfg.get('bot', 'humeur')
+            print("Humeur: " + nbr)
+            if int(nbr) < 500:
+                phraseADire = 0
+            elif 1500 > int(nbr) > 500:
+                phraseADire = 1
+            else:
 
-        print(commande)
+                phraseADire = random.randint(2, length - 1)
+            commande = tag
+            tag = tag.replace(" ", "-")
+            phrase = tag + "-" + str(phraseADire)
+            #os.system("mpg123" + " sounds/" + phrase + ".mp3")
+            print(responses[phraseADire])
+
+            print(commande)
+        else:
+            commande = tag
+            print(responses[0])
+            print(commande)
 
         requestType = 'conversation'
 
