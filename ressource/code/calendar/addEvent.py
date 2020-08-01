@@ -10,13 +10,15 @@ import sys
 
 SCOPES = ['https://www.googleapis.com/auth/calendar.events']
 
-mois={1:'janvier',2:'février',3:'mars',4:'avril',5:'mai',6:'juin',7:'juillet',8:'août',9:'septembre',10:'octobre',11:'novembre',12:'décembre'}
+mois = {1: 'janvier', 2: 'février', 3: 'mars', 4: 'avril', 5: 'mai', 6: 'juin', 7: 'juillet', 8: 'août', 9: 'septembre',
+        10: 'octobre', 11: 'novembre', 12: 'décembre'}
 
 """Shows basic usage of the Google Calendar API.
 Prints the start and name of the next 10 events on the user's calendar.
 """
 
-def main():
+
+def main(summary, location, description, startDateTime, endDateTime):
     creds = None
     if os.path.exists('token.pickle'):
         with open('token.pickle', 'rb') as token:
@@ -38,22 +40,20 @@ def main():
     # Call the Calendar API
 
     event = {
-        'summary': 'Couper les glaçond',
-        'location': '',
-        'description': '',
+        'summary': summary,
+        'location': location,
+        'description': description,
         'start': {
-            'dateTime': '2020-07-25T09:00:00-07:00',
+            'dateTime': startDateTime,
             'timeZone': 'Europe/Brussels',
         },
         'end': {
-            'dateTime': '2020-07-25T17:00:00-07:00',
+            'dateTime': endDateTime,
             'timeZone': 'Europe/Brussels',
         },
         'recurrence': [
         ],
         'attendees': [
-            {'email': 'lpage@example.com'},
-            {'email': 'sbrin@example.com'},
         ],
         'reminders': {
             'useDefault': False,
@@ -66,4 +66,8 @@ def main():
     print('Event created: %s' % (event.get('htmlLink')))
 
 
-main()
+main(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5])
+print(sys.argv)
+
+
+
