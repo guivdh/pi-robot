@@ -86,6 +86,7 @@ void loop()
   Serial.println("\n3 - Mesure distance");
   mesureDistance();
   delay(2000);
+  
 
   Serial.println("\n4 - LED RGB");
   setColor(255,0,0);
