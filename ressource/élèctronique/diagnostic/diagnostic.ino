@@ -26,6 +26,11 @@ Servo monServomoteur1;
 Servo monServomoteur2;
 Servo monServomoteur3;
 
+int ledR = 31;
+int ledB = 29;
+int ledG = 33;
+
+int cam = 35;
 
 
 void setup()
@@ -59,6 +64,9 @@ void setup()
   analogWrite(ENB, 255);
   analogWrite(ENB, 130); //130
 
+  digitalWrite(ledR, LOW); 
+  digitalWrite(ledG, LOW); 
+  digitalWrite(ledB, LOW); 
 
 }
 
@@ -78,8 +86,24 @@ void loop()
   Serial.println("\n3 - Mesure distance");
   mesureDistance();
   delay(2000);
+
+  Serial.println("\n4 - LED RGB");
+  setColor(255,0,0);
+  delay(1000);
+  setColor(0,255,0);
+  delay(1000);
+  setColor(0,0,255);
+  delay(1000);
+  setColor(255,255,255);
+
+  Serial.println("\n5 - Caméra");
+  analogWrite(cam, 255);
+  /*
+  digitalWrite(ledR, LOW); 
+  digitalWrite(ledG, LOW); 
+  digitalWrite(ledB, LOW);*/
   
-  Serial.println("\n4 - Avance");
+  /*Serial.println("\n4 - Avance");
   avancer();
   delay(2000);
 
@@ -89,7 +113,9 @@ void loop()
 
   Serial.println("\n6 - Arrêt");
   arret();
-  delay(2000);
+  delay(2000);*/
+
+  
 
   Serial.println("Diagnostic terminé");
   
@@ -167,4 +193,11 @@ float mesureDistance(){
   distance = pulseIn(pinEcho, HIGH) / 58.0; 
   Serial.println(distance);
   return distance;
+}
+
+void setColor(int red_light_value, int green_light_value, int blue_light_value)
+ {
+  analogWrite(ledR, red_light_value);
+  analogWrite(ledG, green_light_value);
+  analogWrite(ledB, blue_light_value);
 }
