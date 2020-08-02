@@ -1,6 +1,5 @@
 #include <SoftwareSerial.h>   // librairie pour creer une nouvelle connexion serie max 9600 baud
 #include <dht11.h>
-#define PIN_LED 7
 #include <Servo.h>
 
 SoftwareSerial BTSerial(10, 11); // RX | TX  = > BT-TX=10 BT-RX=11
@@ -11,9 +10,9 @@ String mot;
 int temp;
 char str[2];
 
-int IN1=2;
-int IN2=3;
-int IN3=4;
+int IN1=7;
+int IN2=12;
+int IN3=13;
 int IN4=5;
 int ENB=6;
 
@@ -22,8 +21,16 @@ int pinEcho = 53;
 long temps;
 float distance;
 
-Servo monServomoteur;
 
+Servo monServomoteur1;
+Servo monServomoteur2;
+Servo monServomoteur3;
+
+int ledR = 3;
+int ledB = 2;
+int ledG = 4;
+
+int cam = 35;
 
 void setup()
 {
@@ -32,13 +39,17 @@ void setup()
   pinMode(pinEcho, INPUT);
   digitalWrite(pinTrig, LOW); 
 
-  monServomoteur.attach(51);
-  
-  Serial.begin(9600);
-  Serial.println("Enter a command:");
-  BTSerial.begin(9600);  // HC-05 9600 baud
+  monServomoteur1.attach(22);
+  monServomoteur2.attach(23);
+  monServomoteur3.attach(24);
 
-  pinMode(PIN_LED, OUTPUT);
+  //bras en bas du robot
+  monServomoteur2.write(140);
+  monServomoteur3.write(7);
+
+  //radar au milieu
+  monServomoteur1.write(62);
+
 
   //Moteurs
   pinMode(IN1, OUTPUT);
@@ -50,15 +61,21 @@ void setup()
   analogWrite(ENB, 255);
   analogWrite(ENB, 130); //130
 
+  digitalWrite(ledR, LOW); 
+  digitalWrite(ledG, LOW); 
+  digitalWrite(ledB, LOW); 
+  
+  Serial.begin(9600);
+  Serial.println("Enter a command:");
+  BTSerial.begin(9600);  // HC-05 9600 baud
+
 
 }
 
 void loop()
 {
-
-  // Fait bouger le bras de 0° à 180°
-  monServomoteur.write(62); //aligne le capteur devant
-  String message;
+   setColor(255,255,255);
+ /*String message;
     // Boucle de lecture sur le BT
     // Reading BT
     while (BTSerial.available()){
@@ -68,39 +85,14 @@ void loop()
       // Ecriture du message dans le serial usb
       // write in serial usb
       Serial.println(message);
-    }
+    }*/
 
-  // si mon message est egal a "on"  ( + retour chariot et nouvelle ligne )
-    if(message == "on"){
-      digitalWrite(PIN_LED,HIGH); // led on
-      
-    else if(message == "off"){
-      digitalWrite(PIN_LED,LOW);  // led off
-    }
-    
-    else if(message == "temperature"){
-      getTemperature();
-    }
-    
-    else if(message == "deplacement"){
-      deplacement();
-      while (BTSerial.available()){
-        // Lecture du message envoyé par le BT
-        // Read message send by BT
-        message = BTSerial.readString();
-        // Ecriture du message dans le serial usb
-        // write in serial usb
-        Serial.println(message);
-        if(mesureDistance()<10){
-          arret();
-        }
-      }
-
-        delay(200);  
-    }
-    else if(message == "arret"){
-      arret();
-    }
+  delay(2000);
+  heureux();
+  delay(1000);
+  yeux();
+  while(1){
+  }
 }
 
 
@@ -142,4 +134,81 @@ float mesureDistance(){
   distance = pulseIn(pinEcho, HIGH) / 58.0; 
   Serial.println(distance);
   return distance;
+}
+
+void setColor(int red_light_value, int green_light_value, int blue_light_value)
+ {
+  analogWrite(ledR, red_light_value);
+  analogWrite(ledG, green_light_value);
+  analogWrite(ledB, blue_light_value);
+}
+
+void reveil(){
+  monServomoteur2.write(7);
+  monServomoteur3.write(140);
+  delay(250);
+  monServomoteur2.write(37);
+  monServomoteur3.write(110);
+  delay(250);
+  monServomoteur2.write(7);
+  monServomoteur3.write(140);
+  delay(250);
+  monServomoteur2.write(140);
+  monServomoteur3.write(7);
+}
+
+void heureux(){
+  for(int i=0;i<8;i++){
+  monServomoteur2.write(37);
+  monServomoteur3.write(140);
+  delay(200);
+  monServomoteur2.write(7);
+  monServomoteur3.write(110);
+  delay(200);
+  }
+  monServomoteur2.write(140);
+  monServomoteur3.write(7);
+}
+
+void bonjour(){
+  for(int i=0;i<5;i++){
+  monServomoteur2.write(0);
+  delay(250);
+  monServomoteur2.write(37);
+  delay(250);
+  }
+  monServomoteur2.write(140);
+}
+
+void aleatoire(){
+  int pos1=0;
+  int pos2=0;
+  int color1=0;
+  int color2=0;
+  int color3=0;
+  for(int i=0;i<5;i++){
+    pos1 = random(0,120);
+    pos2 = random(7,140);
+    color1 = random(0,255);
+    color2 = random(0,255);
+    color3 = random(0,255);
+    Serial.println(pos1);
+    Serial.println(pos2);
+    monServomoteur2.write(pos1);
+    monServomoteur3.write(pos2);
+    setColor(color1,color2,color3);
+    delay(300);
+    
+  }
+}
+
+void yeux(){
+  for(int i=0;i<255;i++){
+    setColor(i,255-i,0);
+    delay(50);
+  }
+  for(int i=255;i>0;i--){
+    setColor(i,255-i,255-i);
+    delay(50);
+  }
 }
