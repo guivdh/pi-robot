@@ -22,6 +22,7 @@ int pinEcho = 53;
 long temps;
 float distance;
 
+
 Servo monServomoteur1;
 Servo monServomoteur2;
 Servo monServomoteur3;
@@ -68,6 +69,7 @@ void setup()
   digitalWrite(ledG, LOW); 
   digitalWrite(ledB, LOW); 
 
+
 }
 
 void loop()
@@ -75,7 +77,7 @@ void loop()
 
   Serial.println("Diagnostic en cours");
   delay(1000);
-  Serial.println("1 - Servomoteur");
+  /*Serial.println("1 - Servomoteur");
   servomoteur();
   delay(2000);
 
@@ -95,10 +97,15 @@ void loop()
   delay(1000);
   setColor(0,0,255);
   delay(1000);
-  setColor(255,255,255);
+  setColor(255,255,255);*/
 
-  Serial.println("\n5 - Caméra");
-  analogWrite(cam, 255);
+  while(1){
+    Serial.println(digitalRead(9));
+    delay(200);
+  }
+
+  //Serial.println("\n5 - Caméra");
+  //analogWrite(cam, 255);
   /*
   digitalWrite(ledR, LOW); 
   digitalWrite(ledG, LOW); 
