@@ -31,6 +31,8 @@ import pymysql
 cfg = configparser.ConfigParser()
 cfg.read('config/config.cfg')
 
+
+# Connexion à la base de donnée
 mydb = pymysql.connect(
     host="51.77.201.156",
     user="guivdh",
@@ -38,7 +40,7 @@ mydb = pymysql.connect(
     db='master'
 )
 
-# If modifying these scopes, delete the file token.pickle.
+# cible vers l'api de calendrier google
 SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
 
 mois = {1: 'janvier', 2: 'février', 3: 'mars', 4: 'avril', 5: 'mai', 6: 'juin', 7: 'juillet', 8: 'août', 9: 'septembre',
@@ -46,6 +48,7 @@ mois = {1: 'janvier', 2: 'février', 3: 'mars', 4: 'avril', 5: 'mai', 6: 'juin',
 moisNbre = {'janvier': 1, 'février': 2, 'mars': 3, 'avril': 4, 'mai': 5, 'juin': 6, 'juillet': 7, 'août': 8,
             'septembre': 9, 'octobre': 10, 'novembre': 11, 'décembre': 12}
 
+# MACAddress du HC-05 sur l'arduino
 serverMACAddress = '98:D3:33:F5:AE:4D'
 port = 1
 
@@ -138,19 +141,17 @@ def bag_of_words(s, words):
 
     return numpy.array(bag)
 
+# --------------------------------------------- fin de la configuration de l'IA
 
 # Connection au bluetooth
-# try:
-#    s = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
-#    s.connect((serverMACAddress, port))
-# except Exception as e:
-#    print("Exception : " + str(e))
-#    print("Une erreur est survenue")
-#    audio = MP3("sounds/erreur.mp3")
-#    player = os.system("mpg123 "+"sounds/erreur.mp3")
-#    speakEnglish(str(e))
-#    sys.exit()
+try:
+   s = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
+   s.connect((serverMACAddress, port))
+except Exception as e:
+   print("Exception : " + str(e))
+   sys.exit()
 
+# Fonction qui permet transforme la voix en texte (api de Google)
 def get_audio():
     r = sr.Recognizer()
     print('En écoute !')
@@ -161,6 +162,7 @@ def get_audio():
         # player = os.system("mpg123 "+'sounds/pop.mp3')
         said = ""
 
+        # Lance la reconnaissance de voix
         try:
             said = r.recognize_google(audioSon, language='fr-FR')
             print(said)
@@ -169,17 +171,20 @@ def get_audio():
             # os.system("mpg123 "+"sounds/erreur.mp3")
     return said
 
-
+# Fonction qui transforme un texte en voix de robot
 def speak(phrase):
     os.system("python3 talking/tts.py '" + phrase + "'")
 
-
+# Fonction qui lanceun chronomètre de x secondes
 def minuteur(nb):
     for i in range(nb):
         time.sleep(1)
     os.system("mpg123 sounds/alarme.mp3")
 
-
+"""
+    Fonction avec boucle infinie qui émet une alarme lorsque l'heure actuelle correspond à l'heure rentrée en paramètre.
+    Les heures sont en format Timestamp
+"""
 def alarme(alarme):
     while True:
         heure = time.localtime()
@@ -189,7 +194,7 @@ def alarme(alarme):
             break
         time.sleep(1)
 
-
+# fonction qui gère l'humeur du robot. Toutes les 15 secondes, l'humeur est diminiuée de 1
 def humeurMoins():
     while True:
         nbr = cfg.get('bot', 'humeur')
@@ -198,7 +203,7 @@ def humeurMoins():
         cfg.write(open('config/config.cfg', 'w'))
         time.sleep(15)
 
-
+# fonction qui gère l'humeur du robot. Lorsqu'elle est appelée, elle ajoute 20 à l'humeur
 def humeurPlus():
     nbr = cfg.get('bot', 'humeur')
     newNbr = int(nbr) + 20
@@ -206,12 +211,14 @@ def humeurPlus():
     cfg.write(open('config/config.cfg', 'w'))
 
 
-# Lancement du programme
+# ------------------------------------------------- Lancement du programme
 
+# Mot pour réveilleur le robot
 WAKE = "simbot"
 
 player = os.system("mpg123 " + 'sounds/actionChoix.mp3')
 
+# Lancement du thread qui gère l'humeur
 humeur = threading.Thread(None, humeurMoins, None)
 humeur.start()
 
@@ -245,10 +252,11 @@ while 1:
 
         global responses
         global commande
-        print("Start talking with the bot (type quit to stop)!")
         # inp = input("You: ")
         if inp.lower() == "tu peux quitter":
             sys.exit(0)
+
+        # Utilisation de l'IA en y rentrant la commande
 
         results = model.predict([bag_of_words(inp, words)])
         results_index = numpy.argmax(results)
@@ -259,9 +267,8 @@ while 1:
                 responses = tg['responses']
         print(responses)
         length = len(responses)
-        # choisit un nombre aléatoire entre les différentes réponses
-        #nbr = random.randint(0, length - 1)
-        # en fonction de l'humeur, choisit une réponse
+
+        # choisit une réponse en fonction de l'humeur du robot
         if length > 0:
             nbr = cfg.get('bot', 'humeur')
             print("Humeur: " + nbr)
@@ -270,15 +277,19 @@ while 1:
             elif 1500 > int(nbr) > 500:
                 phraseADire = 1
             else:
-
                 phraseADire = random.randint(2, length - 1)
             commande = tag
+
+            # Envoie la commande au robot
+            s.send(commande)
+
+            # Faire dire la réponse au robot
             tag = tag.replace(" ", "-")
             phrase = tag + "-" + str(phraseADire)
             #os.system("mpg123" + " sounds/" + phrase + ".mp3")
             print(responses[phraseADire])
-
             print(commande)
+
         else:
             commande = tag
             print(responses[0])
@@ -301,6 +312,13 @@ while 1:
 
         if commande == "mettre un minuteur":
             txt = inp.split("de")
+
+            """ 
+                Analyse de la commande pour mettre un minuteur. La phrase est séparée par le mot " de "
+                Ensuite, en fonction de ce qui est mis dans la phrase, si c'est secondes, minutes ou heures, le nombre
+                présent devant sera utilisé pour lancer la fonction adéquate
+            """
+
             if "secon" in txt[1]:
                 nbr = int(re.search(r'\d+', txt[1]).group())
                 strg = "Très bien, je lance un minuteur de " + str(nbr) + " secondes"
@@ -326,6 +344,12 @@ while 1:
             requestType = "météo"
 
         if commande == "mettre une alarme":
+
+            """
+                Sépare la phrase avec le mot 'à'. La partie à droite de à sera analysée pour en resortir l'heure
+                en timestamp. Ensuite la fonction threadAlarm sera appelé et prenant comme paramètre le timestamp
+            """
+
             txt = inp.split("à")
             heure = time.localtime()
             print(txt[1].strip())
@@ -342,18 +366,26 @@ while 1:
         if commande == "envoyer un mail":
             os.system("mpg123" + " sounds/mail.mp3")
             os.system("mpg123 " + 'sounds/pop.mp3')
+
+            # Demande le destinataire du mail
             dest = get_audio().lower()
             os.system("mpg123" + " sounds/mailCorps.mp3")
             os.system("mpg123 " + 'sounds/pop.mp3')
+
+            # Demande le contenu du mail
             body = get_audio()
             os.system("python3 mail/sendMail.py '" + dest + "' '" + body + "'")
             os.system("mpg123 " + 'sounds/mailEnvoie.mp3')
             requestType = "mail"
 
         if commande == "ajouter un évènement":
+
+            # Demande du nom de l'évènement
             os.system("mpg123 " + 'sounds/eventSummary.mp3')
             # summary = get_audio()
             summary = input("you :")
+
+            # Demande si il faut ajouter une localisation et si oui, ajoute la localisation
             os.system("mpg123 " + 'sounds/eventLocation.mp3')
             # txt = get_audio()
             txt = input("you :")
@@ -362,6 +394,8 @@ while 1:
                 location = txt[1].strip()
             else:
                 location = "/"
+
+            # Demande si il faut ajouter une description et si oui, l'ajoute
             os.system("mpg123 " + 'sounds/eventDescription.mp3')
             # txt = get_audio()
             txt = input("you :")
@@ -369,6 +403,8 @@ while 1:
                 description = txt.replace("oui ", "")
             else:
                 description = "/"
+
+            # Demande la date du début de l'evènement
             os.system("mpg123 " + 'sounds/dateDebutCalendrier.mp3')
             # txt=get_audio()
             txt = input("you :")
@@ -379,6 +415,8 @@ while 1:
             mois = moisNbre[txt[1]]
             print(str(txt[0]) + "-" + str(mois) + "-" + str(txt[2]))
             date = str(txt[2]) + "-" + str(mois) + "-" + str(txt[0])
+
+            # Demande l'heure du début de l'évènement
             os.system("mpg123 " + 'sounds/heureDebutCalendrier.mp3')
             # txt=get_audio()
             txt = input("you :")
@@ -388,6 +426,8 @@ while 1:
             txt = txt.split("h")
             startDateTime = date + "T" + str(txt[0]) + ":" + str(txt[1]) + ":00-07:00"
             print(startDateTime)
+
+            # Demande l'heure de fin de l'évènement
             os.system("mpg123 " + 'sounds/heureFinCalendrier.mp3')
             # txt=get_audio()
             txt = input("you :")
@@ -428,7 +468,6 @@ while 1:
             s.send("temperature")
             data1 = s.recv(1024)
             time.sleep(0.5)
-            s.send("temperature")
             data2 = s.recv(1024)
             data = data1 + data2
             strg = "Il fait actuellement" + data.decode("utf-8") + "degré dans la pièce"
@@ -446,12 +485,12 @@ while 1:
         if commande == "tu peux quitter":
             break
 
+        # Lorsqu'une requête est efféctuée, l'humeur est augmentée
         humeurPlus()
 
+        # Envoie du type de requête vers la DB pour la télémétrie
         sql = "INSERT INTO master.request (requestType, requestDate) VALUES ('" + requestType + "', '" + str(
             int(time.time())) + "');"
         cursor = mydb.cursor()
         cursor.execute(sql)
         mydb.commit()
-
-        # s.send(text)

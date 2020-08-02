@@ -222,7 +222,7 @@
 
          "patterns": ["Donne-moi la température", "Quelle température fait-il", "Quel chaleur y a t'il ici ?"],
 
-         "responses": [""],
+         "responses": [],
 
          "context_set": ""
 
@@ -242,7 +242,7 @@
 
          "patterns": ["Met le robot en veille", "Met-toi en veille", "coupe-toi"],
 
-         "responses": [""],
+         "responses": [],
 
          "context_set": ""
 
