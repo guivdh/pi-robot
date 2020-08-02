@@ -1,3 +1,6 @@
+# Programme qui transforme un texte en voix de robot et qui sauvegarde le son
+# avec le nom rentré en paramètre lors de l'exécution du script
+
 import os
 import time
 import bluetooth
