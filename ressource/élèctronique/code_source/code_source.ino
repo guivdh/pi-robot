@@ -87,12 +87,6 @@ void loop()
       Serial.println(message);
     }*/
 
-  delay(2000);
-  heureux();
-  delay(1000);
-  yeux();
-  while(1){
-  }
 }
 
 
