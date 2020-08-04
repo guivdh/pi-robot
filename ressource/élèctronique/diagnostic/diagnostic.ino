@@ -77,7 +77,7 @@ void loop()
 
   Serial.println("Diagnostic en cours");
   delay(1000);
-  /*Serial.println("1 - Servomoteur");
+  Serial.println("1 - Servomoteur");
   servomoteur();
   delay(2000);
 
@@ -97,7 +97,7 @@ void loop()
   delay(1000);
   setColor(0,0,255);
   delay(1000);
-  setColor(255,255,255);*/
+  setColor(255,255,255);
 
   while(1){
     Serial.println(digitalRead(9));
