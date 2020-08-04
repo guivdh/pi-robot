@@ -1,3 +1,5 @@
+# Programme qui envoit un mail (utilisant Gmail)
+
 import smtplib
 import imaplib
 import email

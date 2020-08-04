@@ -11,20 +11,13 @@ port = 1
 s = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
 s.connect((serverMACAddress, port))
 
-def speak(text):
-    tts = gTTS(text=text, lang='fr')
-    filename="voice.mp3"
-    tts.save(filename)
-    playsound('voice.mp3')
-
-speak('    Sélectionner l action à faire')
 
 while 1:
     text = input("--> ")
     if text == "on":
-        speak('Led allumée')
+        print('Led allumée')
     if text == "off":
-        speak('Led éteinte')
+        print('Led éteinte')
     if text == "quit":
         break
     s.send(text)
