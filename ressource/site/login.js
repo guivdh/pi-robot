@@ -8,8 +8,8 @@ const bcrypt = require('bcrypt');
 const http = require('http');
 const https = require('https');
 
-var privateKey = fs.readFileSync('key.pem');
-var certificate = fs.readFileSync('cert.pem');
+var privateKey = fs.readFileSync('/etc/letsencrypt/live/simbot.space/privkey.pem');
+var certificate = fs.readFileSync('/etc/letsencrypt/live/simbot.space/fullchain.pem');
 
 var credentials = {key: privateKey, cert: certificate};
 
@@ -40,13 +40,15 @@ app.use(express.static('public'));
 
 app.get('/', function(request, response) {
 	response.sendFile(path.join(__dirname + '/index.html'));
+	response.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
 });
 
 app.post('/auth', function(request, response) {
 	var username = request.body.username;
 	var password = request.body.password;
 	if (username && password) {
-		connection.query("SELECT * FROM nodelogin.accounts WHERE username = " + "'" + username + "'", function(error, results, fields) {
+		sql = "SELECT * FROM nodelogin.accounts WHERE username = ?"
+		connection.query(sql, [username], function(error, results, fields) {
 			bcrypt.compare(password, results[0]['password'], function(err, res) {
 				if(res == false) {
 					response.send('Incorrect Username and/or Password!');
@@ -66,7 +68,7 @@ app.post('/auth', function(request, response) {
 
 app.get('/nbrBots', function (request, response) {
 	if (request.session.loggedin) {
-		connection.query("SELECT count(id) as 'nbrBots' from master.request;", function (err, result, fields) {
+		connection.query("SELECT count(id) as 'nbrRobots' from master.bot;", function (err, result, fields) {
 			if (err) throw err;
 			response.setHeader('Content-Type', 'application/json');
 			response.end(JSON.stringify(result));
@@ -113,6 +115,7 @@ app.get('/logout', function (req, res) {
 app.get('/graph', function (req, res) {
 	if (req.session.loggedin) {
 		data =fs.readFileSync('./content/graph.html', 'utf8');
+		res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
 		res.send(data);
 	} else {
 		res.send('Veuillez vous <a href="/login">connecter</a> pour accèder à ce contenu');
@@ -126,6 +129,7 @@ app.get('/login', function (req, res) {
 
 app.get('/home', function(request, response) {
 	if (request.session.loggedin) {
+		response.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
 		data =fs.readFileSync('./content/index.html', 'utf8');
 		response.send(data);
 	} else {
@@ -137,5 +141,5 @@ app.get('/home', function(request, response) {
 var httpServer = http.createServer(app);
 var httpsServer = https.createServer(credentials, app);
 
-httpServer.listen(8080);
 httpsServer.listen(8443);
+httpServer.listen(443);

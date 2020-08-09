@@ -6,7 +6,7 @@
         function httpGet()
         {
             var xmlHttp = new XMLHttpRequest();
-            xmlHttp.open( "GET", "http://51.77.201.156:8080/nbrBots", false ); // false for synchronous request
+            xmlHttp.open( "GET", "http://simbot.space:8080/nbrBots", false ); // false for synchronous request
             xmlHttp.send( null );
             document.getElementById("nbrRobots").innerText = "Nombre de robots actuels : " + xmlHttp.response.replace( /[^\d.]/g, '' );;
         }
@@ -379,7 +379,7 @@
 <body><div class="area"></div><nav class="main-menu">
     <ul>
         <li>
-            <a href="https://51.77.201.156:8443/home">
+            <a href="/home">
                 <i class="fa fa-home fa-2x"></i>
                 <span class="nav-text">
                             Accueil
@@ -388,25 +388,25 @@
 
         </li>
         <li class="has-subnav">
-            <a href="https://51.77.201.156:8443/nbrBots">
+            <a href="/nbrBots">
                 <i class="fa fa-sort-numeric-asc fa-2x"></i>
                 <span class="nav-text">
-                            Nombre Robots
+                            API - Nombre Robots
                         </span>
             </a>
 
         </li>
         <li class="has-subnav">
-            <a href="https://51.77.201.156:8443/requests">
+            <a href="/requests">
                 <i class=" 	fa fa-database"></i>
                 <span class="nav-text">
-                            Requêtes
+                            API - Requêtes
                         </span>
             </a>
 
         </li>
         <li class="has-subnav">
-            <a href="https://51.77.201.156:8443/graph">
+            <a href="/graph">
                 <i class="fa fa-area-chart"></i>
                 <span class="nav-text">
                             Graphiques
