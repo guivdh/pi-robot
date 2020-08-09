@@ -201,12 +201,13 @@ def humeurMoins():
         newNbr = int(nbr) - 1
         cfg.set('bot', 'humeur', str(newNbr))
         cfg.write(open('config/config.cfg', 'w'))
+        s.send("couleur-" + str(int(255 - float(nbr)/5.9)) + "-" + str(int(float(nbr)/5.9)) + "-0")
         time.sleep(15)
 
 # fonction qui gère l'humeur du robot. Lorsqu'elle est appelée, elle ajoute 20 à l'humeur
 def humeurPlus():
     nbr = cfg.get('bot', 'humeur')
-    newNbr = int(nbr) + 20
+    newNbr = int(nbr) + 10
     cfg.set('bot', 'humeur', str(newNbr))
     cfg.write(open('config/config.cfg', 'w'))
 
@@ -231,7 +232,7 @@ while 1:
     # text = get_audio()
     text = input("you: ")
     if text == "quit":
-        sys.exit(0)
+        break
 
     # Si simbot est prononcé, le robot se réveil
     # s.send('reveil')
@@ -254,7 +255,7 @@ while 1:
         global commande
         # inp = input("You: ")
         if inp.lower() == "tu peux quitter":
-            sys.exit(0)
+            break
 
         # Utilisation de l'IA en y rentrant la commande
 
@@ -267,32 +268,33 @@ while 1:
                 responses = tg['responses']
         print(responses)
         length = len(responses)
+        print(length)
 
         # choisit une réponse en fonction de l'humeur du robot
         if length > 0:
             nbr = cfg.get('bot', 'humeur')
             print("Humeur: " + nbr)
-            if int(nbr) < 500:
+            if int(nbr) < 500: # triste
                 phraseADire = 0
-            elif 1500 > int(nbr) > 500:
+            elif 1500 > int(nbr) > 500: # heureux
                 phraseADire = 1
-            else:
+            else: # de très bonne humeur
                 phraseADire = random.randint(2, length - 1)
             commande = tag
 
             # Envoie la commande au robot
             s.send(commande)
+            time.sleep(1.4)
 
             # Faire dire la réponse au robot
             tag = tag.replace(" ", "-")
             phrase = tag + "-" + str(phraseADire)
-            #os.system("mpg123" + " sounds/" + phrase + ".mp3")
+            os.system("mpg123" + " sounds/" + phrase + ".mp3")
             print(responses[phraseADire])
             print(commande)
 
         else:
             commande = tag
-            print(responses[0])
             print(commande)
 
         requestType = 'conversation'
@@ -466,11 +468,11 @@ while 1:
 
         if commande == "température":
             s.send("temperature")
-            data1 = s.recv(1024)
+            data1Temp = s.recv(1024)
             time.sleep(0.5)
-            data2 = s.recv(1024)
-            data = data1 + data2
-            strg = "Il fait actuellement" + data.decode("utf-8") + "degré dans la pièce"
+            data2Temp = s.recv(1024)
+            dataTemp = data1Temp + data2Temp
+            strg = "Il fait actuellement" + dataTemp.decode("utf-8") + "degré dans la pièce"
             speak(strg)
             requestType = "robot"
 
