@@ -22,7 +22,7 @@
 
         {"tag": "humeur",
 
-         "patterns": ["comment ca va ?", "comment ca va", "est-ce que tu vas bien ?", "tu vas bien ?", "vas bien ?"],
+         "patterns": ["comment ca va ?", "comment ca va", "est-ce que tu vas bien ?", "tu vas bien ?", "vas bien ?", "comment vas-tu ?"],
 
          "responses": ["Je ne suis pas trop d'humeur", "Je vais bien merci!", "Je suis toujours de bon humeur en ta présence", "Je suis de très bonne humeure en ce momment"],
 
@@ -38,20 +38,11 @@
          "context_set": ""
 
         },
-        {"tag": "mail",
-
-         "patterns": ["Peux-tu envoyer un mail", "mail", "email", "Envoie un mail", "Envoyer un email"],
-
-         "responses": [""],
-
-         "context_set": ""
-
-        },
         {"tag": "Problème",
 
          "patterns": ["J'aimerais signaler un prblème", "Signaler un problème", "J'ai un problème"],
 
-         "responses": [""],
+         "responses": [],
 
          "context_set": ""
 
@@ -91,7 +82,7 @@
 
          "patterns": ["Qu'y a t'il dans mon calendrier", "dis moi mes évènements à venir", "lire calendrier", "lire évènements"],
 
-         "responses": [""],
+         "responses": [],
 
          "context_set": ""
 
@@ -102,7 +93,7 @@
          "patterns": ["Quels sont les évènements pour le jour de", "Qu'est-ce que j'ai de prévu pour le", "Qu'est-ce que j'ai de prévu pour la journée du", "lire évènements de la journée du",
          "lire calendrier de la journée du", "Qu'y a t'il dans mon calendrier pour la journée du"],
 
-         "responses": [""],
+         "responses": [],
 
          "context_set": ""
 
@@ -112,7 +103,7 @@
 
          "patterns": ["Ajouter un évènements dans mon calendrier", "ajouter un évènement", "ajouter un éléments à mon calendrier"],
 
-         "responses": [""],
+         "responses": [],
 
          "context_set": ""
 
@@ -122,7 +113,7 @@
 
          "patterns": ["supprimer un évènements dans mon calendrier", "supprimer un évènement", "supprimer un éléments à mon calendrier"],
 
-         "responses": [""],
+         "responses": [],
 
          "context_set": ""
 
@@ -132,7 +123,7 @@
 
          "patterns": ["Met un minuteur de", "démarre un miniteur de ", "met un minuteur dans"],
 
-         "responses": [""],
+         "responses": [],
 
          "context_set": ""
 
@@ -142,7 +133,7 @@
 
          "patterns": ["arrête le minuteur", "coupe le moniteur", "stop le minuteur"],
 
-         "responses": [""],
+         "responses": [],
 
          "context_set": ""
 
@@ -152,7 +143,7 @@
 
          "patterns": ["Met une alarme à ", "Met une alarme"],
 
-         "responses": [""],
+         "responses": [],
 
          "context_set": ""
 
@@ -172,7 +163,7 @@
 
          "patterns": ["arrête l'alarme", "coupe l'alarme", "stop l'alarme"],
 
-         "responses": [""],
+         "responses": [],
 
          "context_set": ""
 
@@ -182,7 +173,7 @@
 
          "patterns": ["envoyer un mail", "envoie un email", "envoyer un email", "envoie un mail", "peux-tu envoyer un mail", "peux-tu envoyer un email"],
 
-         "responses": [""],
+         "responses": [],
 
          "context_set": ""
 
@@ -202,7 +193,17 @@
 
          "patterns": ["déplace-toi", "déplace-toi dans la pièce", "balade-toi"],
 
-         "responses": [""],
+         "responses": [],
+
+         "context_set": ""
+
+        },
+
+        {"tag": "arret",
+
+         "patterns": ["arrête-toi", "arrête de te déplacer dans la pièce", "arrête de te déplacer", "arrête de te balader"],
+
+         "responses": [],
 
          "context_set": ""
 
@@ -212,7 +213,7 @@
 
          "patterns": ["Donne moi la météo", "peux-tu me donner la météo", "Quel temps fait-il", "Quel est le temps aujourd'hui ?"],
 
-         "responses": [""],
+         "responses": [],
 
          "context_set": ""
 

@@ -14,10 +14,9 @@ s.connect((serverMACAddress, port))
 
 while 1:
     text = input("--> ")
-    if text == "on":
-        print('Led allumée')
-    if text == "off":
-        print('Led éteinte')
+
+    s.send(text)
+
+
     if text == "quit":
         break
-    s.send(text)

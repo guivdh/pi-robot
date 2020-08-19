@@ -144,12 +144,14 @@ def bag_of_words(s, words):
 # --------------------------------------------- fin de la configuration de l'IA
 
 # Connection au bluetooth
+
 try:
    s = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
    s.connect((serverMACAddress, port))
 except Exception as e:
    print("Exception : " + str(e))
    sys.exit()
+
 
 # Fonction qui permet transforme la voix en texte (api de Google)
 def get_audio():
@@ -179,6 +181,7 @@ def speak(phrase):
 def minuteur(nb):
     for i in range(nb):
         time.sleep(1)
+    s.send("minuteur")
     os.system("mpg123 sounds/alarme.mp3")
 
 """
@@ -190,6 +193,7 @@ def alarme(alarme):
         heure = time.localtime()
         print("Heure : " + str(heure[3]) + 'h' + str(heure[4]) + " - Alarme : " + alarme)
         if alarme == str(heure[3]) + 'h' + str(heure[4]):
+            s.send("alarme")
             os.system("mpg123 sounds/alarme.mp3")
             break
         time.sleep(1)
@@ -201,12 +205,13 @@ def humeurMoins():
         newNbr = int(nbr) - 1
         cfg.set('bot', 'humeur', str(newNbr))
         cfg.write(open('config/config.cfg', 'w'))
+        s.send("couleur-" + str(int(255 - float(nbr)/5.9)) + "-" + str(int(float(nbr)/5.9)) + "-0")
         time.sleep(15)
 
 # fonction qui gère l'humeur du robot. Lorsqu'elle est appelée, elle ajoute 20 à l'humeur
 def humeurPlus():
     nbr = cfg.get('bot', 'humeur')
-    newNbr = int(nbr) + 20
+    newNbr = int(nbr) + 10
     cfg.set('bot', 'humeur', str(newNbr))
     cfg.write(open('config/config.cfg', 'w'))
 
@@ -231,11 +236,11 @@ while 1:
     # text = get_audio()
     text = input("you: ")
     if text == "quit":
-        sys.exit(0)
+        break
 
     # Si simbot est prononcé, le robot se réveil
-    # s.send('reveil')
     if text.count(WAKE) > 0:
+        s.send("reveil")
         os.system("mpg123 " + 'sounds/pop.mp3')
 
         nom = cfg.get('user', 'nom')
@@ -254,7 +259,7 @@ while 1:
         global commande
         # inp = input("You: ")
         if inp.lower() == "tu peux quitter":
-            sys.exit(0)
+            break
 
         # Utilisation de l'IA en y rentrant la commande
 
@@ -267,50 +272,55 @@ while 1:
                 responses = tg['responses']
         print(responses)
         length = len(responses)
+        print(length)
 
         # choisit une réponse en fonction de l'humeur du robot
         if length > 0:
             nbr = cfg.get('bot', 'humeur')
             print("Humeur: " + nbr)
-            if int(nbr) < 500:
+            if int(nbr) < 500: # triste
                 phraseADire = 0
-            elif 1500 > int(nbr) > 500:
+            elif 1500 > int(nbr) > 500: # heureux
                 phraseADire = 1
-            else:
+            else: # de très bonne humeur
                 phraseADire = random.randint(2, length - 1)
             commande = tag
 
             # Envoie la commande au robot
             s.send(commande)
+            time.sleep(1.4)
 
             # Faire dire la réponse au robot
             tag = tag.replace(" ", "-")
             phrase = tag + "-" + str(phraseADire)
-            #os.system("mpg123" + " sounds/" + phrase + ".mp3")
+            os.system("mpg123" + " sounds/" + phrase + ".mp3")
             print(responses[phraseADire])
             print(commande)
 
         else:
             commande = tag
-            print(responses[0])
             print(commande)
 
         requestType = 'conversation'
 
         if commande == "blague":
+            s.send("blague")
             os.system("python3 API-requests/getJoke.py")
             requestType = "blague"
 
         if commande == "lire évènements à venir":
+            s.send("LireEvenement")
             player = os.system("mpg123 " + 'sounds/rechercheCalendrier.mp3')
             os.system("python3 calendar/getEvents.py")
             requestType = "calendrier"
 
         if commande == "actualité":
+            s.send("actualite")
             os.system("python3 API-requests/getNews.py")
             requestType = "actualité"
 
         if commande == "mettre un minuteur":
+            s.send("mettreMinuteur")
             txt = inp.split("de")
 
             """ 
@@ -340,10 +350,12 @@ while 1:
             requestType = "minuteur"
 
         if commande == "météo":
+            s.send("meteo")
             os.system("python3 API-requests/getWeather.py")
             requestType = "météo"
 
         if commande == "mettre une alarme":
+            s.send("mettreAlarme")
 
             """
                 Sépare la phrase avec le mot 'à'. La partie à droite de à sera analysée pour en resortir l'heure
@@ -364,6 +376,7 @@ while 1:
                 os.system("mpg123" + " sounds/nonAlarme.mp3")
 
         if commande == "envoyer un mail":
+            s.send("envoieMail")
             os.system("mpg123" + " sounds/mail.mp3")
             os.system("mpg123 " + 'sounds/pop.mp3')
 
@@ -379,7 +392,7 @@ while 1:
             requestType = "mail"
 
         if commande == "ajouter un évènement":
-
+            s.send("ajouterEvenement")
             # Demande du nom de l'évènement
             os.system("mpg123 " + 'sounds/eventSummary.mp3')
             # summary = get_audio()
@@ -424,7 +437,7 @@ while 1:
                 txt = txt.replace("à", "")
                 txt = txt.lstrip()
             txt = txt.split("h")
-            startDateTime = date + "T" + str(txt[0]) + ":" + str(txt[1]) + ":00-07:00"
+            startDateTime = date + "T" + str(txt[0]) + ":" + str(txt[1]) + ":00+02:00"
             print(startDateTime)
 
             # Demande l'heure de fin de l'évènement
@@ -435,9 +448,9 @@ while 1:
                 txt = txt.replace("à", "")
                 txt = txt.lstrip()
             txt = txt.split("h")
-            endDateTime = date + "T" + str(txt[0]) + ":" + str(txt[1]) + ":00-07:00"
+            endDateTime = date + "T" + str(txt[0]) + ":" + str(txt[1]) + ":00+02:00"
             print(endDateTime)
-
+            print("Evènements : " + summary + "-" + location + "-" + description + "-" + startDateTime + "-" + endDateTime)
             os.system(
                 "python3 calendar/addEvent.py " + summary + " " + location + " " + description + " " + startDateTime
                 + " " + endDateTime)
@@ -454,31 +467,21 @@ while 1:
             # os.system("python3 calendar/getEventsDay.py")
             requestType = "ajouterEvènementsCalendrier"
 
-        if commande == "allume la LED":
-            text = 'on'
-            os.system("mpg123 " + 'sounds/ledON.mp3')
-            requestType = "robot"
-
-        if commande == "éteins la LED":
-            text = 'off'
-            os.system("mpg123 " + 'sounds/ledOFF.mp3')
-            requestType = "robot"
-
         if commande == "température":
             s.send("temperature")
-            data1 = s.recv(1024)
+            data1Temp = s.recv(1024)
             time.sleep(0.5)
-            data2 = s.recv(1024)
-            data = data1 + data2
-            strg = "Il fait actuellement" + data.decode("utf-8") + "degré dans la pièce"
+            data2Temp = s.recv(1024)
+            dataTemp = data1Temp + data2Temp
+            strg = "Il fait actuellement" + dataTemp.decode("utf-8") + "degré dans la pièce"
             speak(strg)
             requestType = "robot"
 
-        if commande == "balade toi":
-            s.send("deplacement")
+        if commande == "déplacement":
+            s.send("avance")
             requestType = "robot"
 
-        if commande == "arrête de te balader":
+        if commande == "arret":
             s.send("arret")
             requestType = "robot"
 

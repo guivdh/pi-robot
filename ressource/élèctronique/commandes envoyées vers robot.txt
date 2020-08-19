@@ -1,0 +1,14 @@
+reveil -> le robot est appelé
+blague
+lireEvenement
+actualite
+mettreMinuteur
+meteo
+mettreAlarme
+envoieMail
+ajouterEvenement
+temperature
+avance
+arret
+alarme
+minuteur
