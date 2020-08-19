@@ -10,6 +10,10 @@ String mot;
 int temp;
 char str[2];
 
+int dev = 1;
+
+float distanceObstacle = 0;
+
 int IN1=7;
 int IN2=12;
 int IN3=13;
@@ -58,8 +62,7 @@ void setup()
   pinMode(IN4, OUTPUT);
   pinMode(ENB, OUTPUT);
   
-  analogWrite(ENB, 255);
-  analogWrite(ENB, 130); //130
+  analogWrite(ENB, 110); //110
 
   digitalWrite(ledR, LOW); 
   digitalWrite(ledG, LOW); 
@@ -74,18 +77,82 @@ void setup()
 
 void loop()
 {
-   setColor(255,255,255);
- /*String message;
-    // Boucle de lecture sur le BT
-    // Reading BT
-    while (BTSerial.available()){
-      // Lecture du message envoyé par le BT
-      // Read message send by BT
-      message = BTSerial.readString();
-      // Ecriture du message dans le serial usb
-      // write in serial usb
-      Serial.println(message);
-    }*/
+
+   if(dev==0){
+    String text = getBluetooth();
+    if(text != ""){
+
+      if(text == "salutation"){
+        bonjour();
+      }
+      if(text == "temperature"){
+        getTemperature();
+      }
+      if(text == "avance"){
+        deplacement();
+        while(true){
+          distanceObstacle = mesureDistance();
+          text = getBluetooth();
+          if(text != ""){
+            Serial.println(text);  
+          }
+          
+          if(text == "arret"){
+            arret();
+            break;
+          }
+          if(distanceObstacle < 15){
+            arret();
+            break;
+          }
+        }
+      }
+      if(text == "arret"){
+        arret();
+      }
+      
+
+      /*
+       * fonction qui détermine la couleur des yeux lorsque la commande est "couleur-255-255-255 
+       */
+      if(text.indexOf("couleur")>=0){
+        char phrase[50];
+        const char s[2] = "-";
+        char *token;
+        int i=0;
+        char *rgb[4];
+
+        text.toCharArray(phrase,50);
+        token = strtok(phrase, s);
+        while( token != NULL){
+          rgb[i] = token;
+          token = strtok(NULL,s);
+          i++;
+        }
+        if(atoi(rgb[1]) <= 0 || atoi(rgb[2]) >= 255){
+          setColor(0,255,0);
+        }
+        else{
+          setColor(atoi(rgb[1]),atoi(rgb[2]),atoi(rgb[3]));
+        }
+        
+      }
+      /*
+       * 
+       */
+      Serial.println(text);
+      
+    }
+   }
+   else if(dev==1){
+    delay(2000);
+     Serial.println("Phase de développement");
+     tourneDroite();
+     heureux(8);
+     arret();
+     
+     for (;;);
+   }
 
 }
 
@@ -106,10 +173,10 @@ void getTemperature() {
 }
 
 void deplacement(){
-  digitalWrite(IN1, HIGH);
-  digitalWrite(IN2, LOW);
-  digitalWrite(IN3, HIGH);
-  digitalWrite(IN4, LOW);
+  digitalWrite(IN1, LOW);
+  digitalWrite(IN2, HIGH);
+  digitalWrite(IN3, LOW);
+  digitalWrite(IN4, HIGH);
 }
 
 void arret(){
@@ -126,7 +193,6 @@ float mesureDistance(){
   delayMicroseconds(10);
   digitalWrite(pinTrig, LOW);  
   distance = pulseIn(pinEcho, HIGH) / 58.0; 
-  Serial.println(distance);
   return distance;
 }
 
@@ -151,8 +217,8 @@ void reveil(){
   monServomoteur3.write(7);
 }
 
-void heureux(){
-  for(int i=0;i<8;i++){
+void heureux(int nbr){
+  for(int i=0;i<nbr;i++){
   monServomoteur2.write(37);
   monServomoteur3.write(140);
   delay(200);
@@ -205,4 +271,31 @@ void yeux(){
     setColor(i,255-i,255-i);
     delay(50);
   }
+}
+
+String getBluetooth(){
+      String message;
+      while (BTSerial.available()){
+      // Lecture du message envoyé par le BT
+      // Read message send by BT
+      message = BTSerial.readString();
+      // Ecriture du message dans le serial usb
+      // write in serial usb
+      //Serial.println(message);
+    }
+    return message;
+}
+
+void tourneDroite(){
+  digitalWrite(IN1, LOW);
+  digitalWrite(IN2, HIGH);
+  digitalWrite(IN3, HIGH);
+  digitalWrite(IN4, LOW);
+}
+
+void tourneGauche(){
+  digitalWrite(IN1, HIGH);
+  digitalWrite(IN2, LOW);
+  digitalWrite(IN3, LOW);
+  digitalWrite(IN4, HIGH);
 }
