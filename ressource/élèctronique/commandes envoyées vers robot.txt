@@ -12,3 +12,4 @@ avance
 arret
 alarme
 minuteur
+rigole
