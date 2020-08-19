@@ -19,4 +19,4 @@ condition = response.json()['current_condition']['condition']
 string = "Actuellement à " + ville + ", il fait " + str(temperature) + " degré et un temps " + condition
 print(string)
 
-os.system('python3 talking/tts.py \"' + string + '\"')
+#os.system('python3 talking/tts.py \"' + string + '\"')

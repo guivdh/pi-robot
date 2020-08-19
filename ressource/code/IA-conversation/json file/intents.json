@@ -199,6 +199,16 @@
 
         },
 
+        {"tag": "arret",
+
+         "patterns": ["arrête-toi", "arrête de te déplacer dans la pièce", "arrête de te déplacer", "arrête de te balader"],
+
+         "responses": [],
+
+         "context_set": ""
+
+        },
+
         {"tag": "météo",
 
          "patterns": ["Donne moi la météo", "peux-tu me donner la météo", "Quel temps fait-il", "Quel est le temps aujourd'hui ?"],

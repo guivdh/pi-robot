@@ -144,12 +144,14 @@ def bag_of_words(s, words):
 # --------------------------------------------- fin de la configuration de l'IA
 
 # Connection au bluetooth
+
 try:
    s = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
    s.connect((serverMACAddress, port))
 except Exception as e:
    print("Exception : " + str(e))
    sys.exit()
+
 
 # Fonction qui permet transforme la voix en texte (api de Google)
 def get_audio():
@@ -179,6 +181,7 @@ def speak(phrase):
 def minuteur(nb):
     for i in range(nb):
         time.sleep(1)
+    s.send("minuteur")
     os.system("mpg123 sounds/alarme.mp3")
 
 """
@@ -190,6 +193,7 @@ def alarme(alarme):
         heure = time.localtime()
         print("Heure : " + str(heure[3]) + 'h' + str(heure[4]) + " - Alarme : " + alarme)
         if alarme == str(heure[3]) + 'h' + str(heure[4]):
+            s.send("alarme")
             os.system("mpg123 sounds/alarme.mp3")
             break
         time.sleep(1)
@@ -235,8 +239,8 @@ while 1:
         break
 
     # Si simbot est prononcé, le robot se réveil
-    # s.send('reveil')
     if text.count(WAKE) > 0:
+        s.send("reveil")
         os.system("mpg123 " + 'sounds/pop.mp3')
 
         nom = cfg.get('user', 'nom')
@@ -300,19 +304,23 @@ while 1:
         requestType = 'conversation'
 
         if commande == "blague":
+            s.send("blague")
             os.system("python3 API-requests/getJoke.py")
             requestType = "blague"
 
         if commande == "lire évènements à venir":
+            s.send("LireEvenement")
             player = os.system("mpg123 " + 'sounds/rechercheCalendrier.mp3')
             os.system("python3 calendar/getEvents.py")
             requestType = "calendrier"
 
         if commande == "actualité":
+            s.send("actualite")
             os.system("python3 API-requests/getNews.py")
             requestType = "actualité"
 
         if commande == "mettre un minuteur":
+            s.send("mettreMinuteur")
             txt = inp.split("de")
 
             """ 
@@ -342,10 +350,12 @@ while 1:
             requestType = "minuteur"
 
         if commande == "météo":
+            s.send("meteo")
             os.system("python3 API-requests/getWeather.py")
             requestType = "météo"
 
         if commande == "mettre une alarme":
+            s.send("mettreAlarme")
 
             """
                 Sépare la phrase avec le mot 'à'. La partie à droite de à sera analysée pour en resortir l'heure
@@ -366,6 +376,7 @@ while 1:
                 os.system("mpg123" + " sounds/nonAlarme.mp3")
 
         if commande == "envoyer un mail":
+            s.send("envoieMail")
             os.system("mpg123" + " sounds/mail.mp3")
             os.system("mpg123 " + 'sounds/pop.mp3')
 
@@ -381,7 +392,7 @@ while 1:
             requestType = "mail"
 
         if commande == "ajouter un évènement":
-
+            s.send("ajouterEvenement")
             # Demande du nom de l'évènement
             os.system("mpg123 " + 'sounds/eventSummary.mp3')
             # summary = get_audio()
@@ -426,7 +437,7 @@ while 1:
                 txt = txt.replace("à", "")
                 txt = txt.lstrip()
             txt = txt.split("h")
-            startDateTime = date + "T" + str(txt[0]) + ":" + str(txt[1]) + ":00-07:00"
+            startDateTime = date + "T" + str(txt[0]) + ":" + str(txt[1]) + ":00+02:00"
             print(startDateTime)
 
             # Demande l'heure de fin de l'évènement
@@ -437,9 +448,9 @@ while 1:
                 txt = txt.replace("à", "")
                 txt = txt.lstrip()
             txt = txt.split("h")
-            endDateTime = date + "T" + str(txt[0]) + ":" + str(txt[1]) + ":00-07:00"
+            endDateTime = date + "T" + str(txt[0]) + ":" + str(txt[1]) + ":00+02:00"
             print(endDateTime)
-
+            print("Evènements : " + summary + "-" + location + "-" + description + "-" + startDateTime + "-" + endDateTime)
             os.system(
                 "python3 calendar/addEvent.py " + summary + " " + location + " " + description + " " + startDateTime
                 + " " + endDateTime)
@@ -456,16 +467,6 @@ while 1:
             # os.system("python3 calendar/getEventsDay.py")
             requestType = "ajouterEvènementsCalendrier"
 
-        if commande == "allume la LED":
-            text = 'on'
-            os.system("mpg123 " + 'sounds/ledON.mp3')
-            requestType = "robot"
-
-        if commande == "éteins la LED":
-            text = 'off'
-            os.system("mpg123 " + 'sounds/ledOFF.mp3')
-            requestType = "robot"
-
         if commande == "température":
             s.send("temperature")
             data1Temp = s.recv(1024)
@@ -476,11 +477,11 @@ while 1:
             speak(strg)
             requestType = "robot"
 
-        if commande == "balade toi":
-            s.send("deplacement")
+        if commande == "déplacement":
+            s.send("avance")
             requestType = "robot"
 
-        if commande == "arrête de te balader":
+        if commande == "arret":
             s.send("arret")
             requestType = "robot"
 
