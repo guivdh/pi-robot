@@ -306,6 +306,8 @@ while 1:
         if commande == "blague":
             s.send("blague")
             os.system("python3 API-requests/getJoke.py")
+            s.send("rigole")
+            player = os.system("mpg123 " + 'sounds/rire-1.mp3')
             requestType = "blague"
 
         if commande == "lire évènements à venir":
@@ -475,7 +477,7 @@ while 1:
             dataTemp = data1Temp + data2Temp
             strg = "Il fait actuellement" + dataTemp.decode("utf-8") + "degré dans la pièce"
             speak(strg)
-            requestType = "robot"
+            requestType = "température"
 
         if commande == "déplacement":
             s.send("avance")
