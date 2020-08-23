@@ -14,7 +14,7 @@ Il aura pour objectif d'apporter un soutient et une présence aux personnes dans
 - [ ] Se rappeler d'une tâche
 - [x] Se déplacer de façon autonome dans une pièce
 - [x] Envoyer un mail avec une commande vocale
-- [ ] Réagire à une interaction physique
+- [x] Réagire à une interaction physique
 - [x] Avoir les dernières actualitées
 - [ ] ...
 
