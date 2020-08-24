@@ -10,7 +10,7 @@ String mot;
 int temp;
 char str[2];
 
-int dev = 1;
+int dev = 0;
 
 float distanceObstacle = 0;
 
@@ -62,7 +62,7 @@ void setup()
   pinMode(IN4, OUTPUT);
   pinMode(ENB, OUTPUT);
   
-  analogWrite(ENB, 110); //110
+  analogWrite(ENB, 90); //110
 
   digitalWrite(ledR, LOW); 
   digitalWrite(ledG, LOW); 
@@ -82,16 +82,42 @@ void loop()
     String text = getBluetooth();
     if(text != ""){
 
+        if(text=="mettreMinuteur"){ aleatoire(5);}
+        if(text=="meteo"){ delay(2000);aleatoire(10);}
+        if(text=="mettreAlarme"){ aleatoire(10);}
+        if(text=="envoieMail"){ aleatoire(5);}
+        if(text=="ajouterEvenement"){ aleatoire(5);}
+        if(text=="alarme"){ alarme();}
+        if(text=="minuteur"){ alarme();}
+        
+      
+      if(text == "reveil"){
+        reveil();
+      }
+      if(text == "blague"){
+        delay(1000);
+        aleatoire(8);
+      }
+      if(text=="LireEvenement"){
+        aleatoire(10);
+      }
+      if(text=="actualite"){
+        aleatoire(15);
+      }
       if(text == "salutation"){
         bonjour();
       }
       if(text == "temperature"){
         getTemperature();
       }
+      if(text == "rigole"){
+        rigole();
+      }
       if(text == "avance"){
         deplacement();
         while(true){
           distanceObstacle = mesureDistance();
+          Serial.println(distanceObstacle);
           text = getBluetooth();
           if(text != ""){
             Serial.println(text);  
@@ -102,8 +128,8 @@ void loop()
             break;
           }
           if(distanceObstacle < 15){
-            arret();
-            break;
+            droite();
+            deplacement();            
           }
         }
       }
@@ -145,13 +171,16 @@ void loop()
     }
    }
    else if(dev==1){
+    delay(3000);
+    Serial.println("Phase de développement");
+    tourneDroite();
     delay(2000);
-     Serial.println("Phase de développement");
-     tourneDroite();
-     heureux(8);
-     arret();
-     
-     for (;;);
+    arret();
+    delay(1000);
+    tourneGauche();
+    delay(2000);
+    arret(); 
+    for (;;);
    }
 
 }
@@ -231,7 +260,7 @@ void heureux(int nbr){
 }
 
 void bonjour(){
-  for(int i=0;i<5;i++){
+  for(int i=0;i<3;i++){
   monServomoteur2.write(0);
   delay(250);
   monServomoteur2.write(37);
@@ -240,13 +269,13 @@ void bonjour(){
   monServomoteur2.write(140);
 }
 
-void aleatoire(){
+void aleatoire(int nbr){
   int pos1=0;
   int pos2=0;
   int color1=0;
   int color2=0;
   int color3=0;
-  for(int i=0;i<5;i++){
+  for(int i=0;i<nbr;i++){
     pos1 = random(0,120);
     pos2 = random(7,140);
     color1 = random(0,255);
@@ -257,9 +286,10 @@ void aleatoire(){
     monServomoteur2.write(pos1);
     monServomoteur3.write(pos2);
     setColor(color1,color2,color3);
-    delay(300);
-    
+    delay(300);    
   }
+  monServomoteur2.write(140);
+  monServomoteur3.write(7);
 }
 
 void yeux(){
@@ -298,4 +328,26 @@ void tourneGauche(){
   digitalWrite(IN2, LOW);
   digitalWrite(IN3, LOW);
   digitalWrite(IN4, HIGH);
+}
+
+void rigole(){
+  tourneDroite();
+  heureux(8);
+  arret();
+}
+
+void alarme(){
+  tourneGauche();
+  monServomoteur2.write(7);
+  monServomoteur3.write(140);
+  delay(5000);
+  arret();
+  monServomoteur2.write(140);
+  monServomoteur3.write(7);
+}
+
+void droite(){
+  tourneDroite();
+  delay(500);
+  arret();
 }
