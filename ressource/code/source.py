@@ -191,7 +191,7 @@ def minuteur(nb):
 def alarme(alarme):
     while True:
         heure = time.localtime()
-        print("Heure : " + str(heure[3]) + 'h' + str(heure[4]) + " - Alarme : " + alarme)
+        # print("Heure : " + str(heure[3]) + 'h' + str(heure[4]) + " - Alarme : " + alarme)
         if alarme == str(heure[3]) + 'h' + str(heure[4]):
             s.send("alarme")
             os.system("mpg123 sounds/alarme.mp3")
@@ -241,6 +241,7 @@ while 1:
     # Si simbot est prononcé, le robot se réveil
     if text.count(WAKE) > 0:
         s.send("reveil")
+        sleep(1)
         os.system("mpg123 " + 'sounds/pop.mp3')
 
         nom = cfg.get('user', 'nom')
@@ -306,6 +307,9 @@ while 1:
         if commande == "blague":
             s.send("blague")
             os.system("python3 API-requests/getJoke.py")
+            s.send("rigole")
+            sleep(1)
+            player = os.system("mpg123 " + 'sounds/rire-1.mp3')
             requestType = "blague"
 
         if commande == "lire évènements à venir":
@@ -475,7 +479,7 @@ while 1:
             dataTemp = data1Temp + data2Temp
             strg = "Il fait actuellement" + dataTemp.decode("utf-8") + "degré dans la pièce"
             speak(strg)
-            requestType = "robot"
+            requestType = "température"
 
         if commande == "déplacement":
             s.send("avance")

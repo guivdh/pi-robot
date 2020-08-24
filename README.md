@@ -1,4 +1,4 @@
-![https://www.tuannguyen.tech/wp-content/uploads/2019/08/robot-and-human-hands.jpeg](https://github.com/guivdh/simbot/blob/master/ressource/images/robot-and-human-hands.jpeg)
+![simbot](https://github.com/guivdh/simbot/blob/master/ressource/images/signal-2020-08-23-145111_001%20(2).jpeg)
 # Simbot
 Conception d'un robot assistant et divertissant pour personnages âgées ou à mobilité réduite dans le cadre du TFE à l'EPHEC.
 
@@ -14,7 +14,7 @@ Il aura pour objectif d'apporter un soutient et une présence aux personnes dans
 - [ ] Se rappeler d'une tâche
 - [x] Se déplacer de façon autonome dans une pièce
 - [x] Envoyer un mail avec une commande vocale
-- [ ] Réagire à une interaction physique
+- [x] Réagire à une interaction physique
 - [x] Avoir les dernières actualitées
 - [ ] ...
 
