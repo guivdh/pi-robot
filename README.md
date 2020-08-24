@@ -6,7 +6,7 @@ Conception d'un robot assistant et divertissant pour personnages âgées ou à m
 ![Arduino hardware](https://img.shields.io/badge/Arduino_Mega-harware-informational?style=for-the-badge&color=00a814&logo=arduino&logoColor=white)
 ![Software Python](https://img.shields.io/badge/Software-Python-informational?style=for-the-badge&color=ff0000&logo=python&logoColor=white)
 ![Hardware C++](https://img.shields.io/badge/Hardware-C++-informational?style=for-the-badge&color=ff0000&logo=c%2B%2B&logoColor=white)
-![Powered by AI](https://img.shields.io/badge/Powered_by-AI-informational?style=for-the-badge&color=0008ff&logo=c%2B%2B&logoColor=white)
+![Powered by AI](https://img.shields.io/badge/Powered_by-AI-informational?style=for-the-badge&color=0008ff)
 
 ## Concept
 Simbot est un robot capable d'interagir avec son environnement via une communication physique et vocale.
