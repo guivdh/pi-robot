@@ -13,4 +13,6 @@ txt = x.json()
 
 print(txt["blagues"])
 
-os.system("python3 talking/tts.py \"" + txt["blagues"] + "\"")
+blague = txt["blagues"].replace("\"", " ")
+
+os.system("python3 talking/tts.py \"" + blague + "\"")

@@ -159,7 +159,7 @@ def get_audio():
     print('En écoute !')
     mic = sr.Microphone()
     with mic as source:
-        # r.adjust_for_ambient_noise(source)
+        r.adjust_for_ambient_noise(source,duration=1)
         audioSon = r.listen(source)
         # player = os.system("mpg123 "+'sounds/pop.mp3')
         said = ""
@@ -189,6 +189,8 @@ def minuteur(nb):
     Les heures sont en format Timestamp
 """
 def alarme(alarme):
+    heure = time.localtime()
+    print("Heure : " + str(heure[3]) + 'h' + str(heure[4]) + " - Alarme : " + alarme)
     while True:
         heure = time.localtime()
         # print("Heure : " + str(heure[3]) + 'h' + str(heure[4]) + " - Alarme : " + alarme)
@@ -234,12 +236,12 @@ while 1:
     cursor = mydb.cursor()
 
     # text = get_audio()
-    text = input("you: ")
+    text = get_audio()
     if text == "quit":
         break
 
     # Si simbot est prononcé, le robot se réveil
-    if text.count(WAKE) > 0:
+    if "simbot" in text or "botte" in text or "imba" in text:
         s.send("reveil")
         sleep(1)
         os.system("mpg123 " + 'sounds/pop.mp3')
@@ -249,16 +251,16 @@ while 1:
         # Si le nom de l'utilisateur n'a pas encore été enregistrer, Simbot le lui demande
         if nom == "undefined":
             os.system("mpg123 sounds/demandeNom.mp3")
-            nom = input("you: ")
+            nom = get_audio()
             cfg.set('user', 'nom', nom)
             cfg.write(open('config/config.cfg', 'w'))
 
-        # inp = get_audio()
-        inp = input("you :")
+        inp = get_audio()
+        #inp = get_audio()
 
         global responses
         global commande
-        # inp = input("You: ")
+        # inp = get_audio()
         if inp.lower() == "tu peux quitter":
             break
 
@@ -400,12 +402,12 @@ while 1:
             # Demande du nom de l'évènement
             os.system("mpg123 " + 'sounds/eventSummary.mp3')
             # summary = get_audio()
-            summary = input("you :")
+            summary = get_audio()
 
             # Demande si il faut ajouter une localisation et si oui, ajoute la localisation
             os.system("mpg123 " + 'sounds/eventLocation.mp3')
             # txt = get_audio()
-            txt = input("you :")
+            txt = get_audio()
             if "oui" in txt:
                 txt = txt.split("à")
                 location = txt[1].strip()
@@ -415,7 +417,7 @@ while 1:
             # Demande si il faut ajouter une description et si oui, l'ajoute
             os.system("mpg123 " + 'sounds/eventDescription.mp3')
             # txt = get_audio()
-            txt = input("you :")
+            txt = get_audio()
             if "oui" in txt:
                 description = txt.replace("oui ", "")
             else:
@@ -424,7 +426,7 @@ while 1:
             # Demande la date du début de l'evènement
             os.system("mpg123 " + 'sounds/dateDebutCalendrier.mp3')
             # txt=get_audio()
-            txt = input("you :")
+            txt = get_audio()
             if "le " in txt.lower():
                 txt = txt.replace("le ", "")
                 txt = txt.lstrip()
@@ -436,7 +438,7 @@ while 1:
             # Demande l'heure du début de l'évènement
             os.system("mpg123 " + 'sounds/heureDebutCalendrier.mp3')
             # txt=get_audio()
-            txt = input("you :")
+            txt = get_audio()
             if "à" in txt.lower():
                 txt = txt.replace("à", "")
                 txt = txt.lstrip()
@@ -447,7 +449,7 @@ while 1:
             # Demande l'heure de fin de l'évènement
             os.system("mpg123 " + 'sounds/heureFinCalendrier.mp3')
             # txt=get_audio()
-            txt = input("you :")
+            txt = get_audio()
             if "à" in txt.lower():
                 txt = txt.replace("à", "")
                 txt = txt.lstrip()
